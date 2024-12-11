@@ -1,0 +1,15 @@
+.background {
+  
+  width: 370px;
+  height: 290px;
+  border: 1px solid black;
+}
+button {
+  width: 100px;
+  height: 30px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

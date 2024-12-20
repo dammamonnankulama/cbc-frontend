@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Route, Routes, Outlet } from 'react-router-dom';
 import { FaReact, FaShoppingCart, FaHeadset, FaApple } from 'react-icons/fa';
 
 
@@ -33,9 +33,8 @@ const HomePage = () => {
           </Link>
         </nav>
       </header>
-      <main className="flex flex-col items-center justify-center flex-1 text-center">
-        <h1 className="text-5xl font-extrabold mb-5">Website Under Construction</h1>
-        <p className="text-xl mb-8">We're working hard to bring you an amazing experience. Stay tuned!</p>
+      <main className="flex-1 p-4">
+        <Outlet /> {/* This will render the matched nested route */}
       </main>
     </div>
 

@@ -1,4 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { FaHome } from "react-icons/fa";
+
 
 const LoginPage = () => {
   return (
@@ -14,6 +17,12 @@ const LoginPage = () => {
           <input type="password" id="password" name="password" required className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
         <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Login</button>
+        
+        <div className="flex justify-center mt-4">
+          <Link to="/" className="text-blue-500 hover:text-blue-700"><FaHome />
+           
+          </Link>
+        </div>
       </form>
     </div>
   );

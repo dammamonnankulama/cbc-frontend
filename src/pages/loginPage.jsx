@@ -3,9 +3,13 @@ import { Link } from 'react-router-dom';
 import { FaHome } from "react-icons/fa";
 
 
+
 const LoginPage = () => {
   return (
+   
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+
+
       <form className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
         <div className="mb-4">

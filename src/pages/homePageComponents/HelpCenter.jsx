@@ -2,7 +2,9 @@ import React from 'react'
 
 function HelpCenter() {
   return (
-    <div>HelpCenter</div>
+    <div>
+      <h1>Hello</h1>
+    </div>
   )
 }
 

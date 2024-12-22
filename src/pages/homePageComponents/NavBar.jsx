@@ -1,41 +1,36 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import { FaReact, FaShoppingCart, FaHeadset, FaApple } from 'react-icons/fa';
+
 
 function NavBar() {
   return (
-    <header className="bg-blue-600 text-white p-4 shadow-md">
-      <div className="flex justify-between items-center max-w-screen-xl mx-auto">
-        {/* Logo */}
-        <div className="flex items-center space-x-3">
-          <span className="text-3xl font-bold">MyApp</span>
-        </div>
-
-        {/* Navbar Links */}
-        <nav className="space-x-6">
-         
-           
-          
-          <Link 
-            to="/about" 
-            className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-all"
-          >
-            About
-          </Link>
-          <Link 
-            to="/services" 
-            className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-all"
-          >
-            Services
-          </Link>
-          <Link 
-            to="/contact" 
-            className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-all"
-          >
-            Contact
-          </Link>
-        </nav>
-      </div>
-    </header>
+    <header className="bg-indigo-700 text-white p-6 flex justify-between items-center shadow-md">
+    <div className="flex items-center space-x-3">
+      <FaReact className="text-4xl" />
+      <span className="text-2xl font-semibold">BeautyCare</span>
+    </div>
+    <nav className="space-x-5 flex items-center">
+      
+     
+      <Link to="/help-center" className="flex items-center bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-all">
+        <span className="mr-2">Help Center</span>
+      </Link>
+      <Link to="/offers" className="flex items-center bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition-all">
+        <span className="mr-2">Offers</span>
+      </Link>
+      <Link to="/get-app" className="flex items-center bg-purple-500 text-white py-2 px-4 rounded-lg hover:bg-purple-600 transition-all">
+        <span className="mr-2">Get App</span>
+      </Link>
+      <Link to="/login" className="flex items-center bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-all">
+        <span className="mr-2">Login</span>
+      </Link>
+      <Link to="/signup" className="flex items-center bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-all">
+        <span className="mr-2">Sign Up</span>
+      </Link>
+      
+    </nav>
+  </header>
 
   )
 }

@@ -9,10 +9,12 @@ import Cart from './pages/homePageComponents/Offers';
 import HelpCenter from './pages/homePageComponents/HelpCenter';
 import GetApp from './pages/homePageComponents/GetApp';
 import NavBar from './pages/homePageComponents/NavBar';
+import { Toaster } from 'react-hot-toast'
 
 function App() {
   return (
     <BrowserRouter>
+      <Toaster position='top-right'/>
       <Routes>
         {/* Root route with nested routes */}
         <Route path="/*" element={<HomePage />} />

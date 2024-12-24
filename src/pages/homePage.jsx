@@ -1,32 +1,59 @@
 import React from 'react';
-import { Link, Route, Routes, Outlet } from 'react-router-dom';
-import { FaReact, FaShoppingCart, FaHeadset, FaApple } from 'react-icons/fa';
+import  { useEffect, useState } from 'react';
+import axios from 'axios'
 
 import NavBar from './homePageComponents/NavBar';
 
 
 const HomePage = () => {
+
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/products')
+      .then((res) => {
+        setProducts(res.data);
+      })
+      .catch((err) => {
+        console.error('Error fetching products:', err);
+      });
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-200">
-      <NavBar />
-      <div className="flex flex-col min-h-screen bg-gray-100">
-    
-      <main className="flex flex-col items-center justify-center flex-1 text-center">
-        <section className="bg-white p-10 rounded-lg shadow-lg mb-8">
-          <h1 className="text-5xl font-bold mb-4">Welcome to BeautyCare</h1>
-          <p className="text-lg mb-6">Your one-stop solution for all beauty products and services.</p>          
-        </section>
-        
-               
-      </main>
-      <footer className="bg-indigo-700 text-white p-6 text-center">
-        <p>&copy; 2023 BeautyCare. All rights reserved.</p>
-      </footer>
+    <NavBar />
+    <div className="p-8">
+      <h1 className="text-3xl font-bold mb-4">Products</h1>
+      <p className="text-lg mb-6">Browse through our collection of beauty products.</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {products.map((product) => (
+          <div key={product.productId} className="bg-white p-4 rounded-lg shadow-md flex flex-col">
+            {product.productImages && product.productImages.length > 0 ? (
+              <img
+                src={product.productImages[0]}
+                alt={product.productName}
+                className="h-50 object-cover rounded-t-lg shadow-lg mx-auto"
+                style={{ width: '50%' }}
+              />
+            ) : (
+              <div className="w-full h-36 bg-gray-200 rounded-t-lg flex items-center justify-center">
+                <span className="text-gray-500">No Image Available</span>
+              </div>
+            )}
+            <div className="p-4 flex flex-col flex-grow">
+              <h3 className="text-xl font-bold mb-2">{product.productName}</h3>
+              <p className="text-gray-700 mb-4 flex-grow">{product.description}</p>
+              <p className="text-lg font-semibold mb-4">${product.price}</p>
+              <div className="flex justify-between">
+                <button className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">Buy</button>
+                <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
-    
-      
-    </div>
-
+  </div>
   );
 }
 

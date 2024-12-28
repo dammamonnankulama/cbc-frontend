@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 
 function Products() {
   const [products, setProducts] = useState([]);
+  const [fetchTrigger, setFetchTrigger] = useState(0); // Trigger for re-fetching data
 
   // Fetch products from the server
   useEffect(() => {
@@ -16,7 +17,7 @@ function Products() {
       .catch((err) => {
         console.error('Error fetching products:', err);
       });
-  }, []); // Empty dependency array means this runs only once when the component mounts.
+  }, [fetchTrigger]); // Depend on fetchTrigger to refetch when it changes
 
   const handleDelete = (productId) => {
     const token = localStorage.getItem("token");
@@ -27,16 +28,7 @@ function Products() {
     })
       .then((res) => {
         toast.success(res.data.message);
-
-        // Re-fetch products after delete to keep the list updated
-        axios.get('http://localhost:5000/api/products')
-          .then((res) => {
-            setProducts(res.data); // Update state with fresh product list
-          })
-          .catch((err) => {
-            console.error('Error re-fetching products:', err);
-            toast.error("Failed to update product list");
-          });
+        setFetchTrigger((prev) => prev + 1); // Trigger re-fetch by updating fetchTrigger
       })
       .catch((err) => {
         console.error(err);

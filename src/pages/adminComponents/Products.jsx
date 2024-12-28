@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { FaPlus } from 'react-icons/fa';
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -44,6 +46,9 @@ function Products() {
           </tbody>
         </table>
       </div>
+      <Link to="/admin/products/addProduct" className="absolute bottom-8 right-8 bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-700">
+        <FaPlus />
+      </Link>
     </div>
   );
 }

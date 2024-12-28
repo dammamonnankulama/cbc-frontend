@@ -5,6 +5,7 @@ import Dashboard from './adminComponents/Dashboard';
 import Products from './adminComponents/Products';
 import Orders from './adminComponents/Orders';
 import Customers from './adminComponents/Customers';
+import AddProductForm from './adminComponents/AddProductForm';
 
 
 function AdminHomePage() {
@@ -37,6 +38,7 @@ function AdminHomePage() {
           {/* Specific Routes */}
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="products" element={<Products />} />
+          <Route path="products/addProduct" element={<AddProductForm/>} />
           <Route path="orders" element={<Orders />} />
           <Route path="customers" element={<Customers />} />
 

@@ -53,7 +53,7 @@ function Products() {
                       <FaEdit />
                     </Link>
                     <button onClick={() => {
-                      alert(product.productId);
+                      //alert(product.productId);
                       const token = localStorage.getItem("token");
                       axios.delete(`http://localhost:5000/api/products/${product.productId}`, {
                         headers: {

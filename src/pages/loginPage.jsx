@@ -3,11 +3,15 @@ import { Link } from 'react-router-dom';
 import { FaHome } from "react-icons/fa";
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  // Use the navigate function to redirect to a different page
+  const navigate = useNavigate()
 
   const login = (e) => {
     e.preventDefault();
@@ -27,9 +31,12 @@ const LoginPage = () => {
         toast.success("Login success");
         localStorage.setItem("token", res.data.token);
         if (res.data.user.type === "admin") {
-          window.location.href = "/admin";
+          //window.location.href = "/admin";
+          // Use the navigate function to redirect to a different page
+          navigate("/admin")
         } else {
-          window.location.href = "/";
+         // window.location.href = "/";
+          navigate("/")
         }
       })
       .catch((err) => {

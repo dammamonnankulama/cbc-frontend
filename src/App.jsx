@@ -4,7 +4,7 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import SignUpPage from './pages/SignUpPage';
 import "./App.css";
-import AdminHomePage from './pages/adminHomePage';
+import AdminHomePage from './pages/AdminHomePage';
 import Cart from './pages/homePageComponents/Offers';
 import HelpCenter from './pages/homePageComponents/HelpCenter';
 import GetApp from './pages/homePageComponents/GetApp';

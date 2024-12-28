@@ -7,7 +7,7 @@ export default function AddProductForm() {
   const [productId, setProductId] = useState("");
   const [productName, setProductName] = useState("");
   const [alternativeNames, setAlternativeNames] = useState("");
-  const [imageUrls, setImageUrls] = useState("");
+  const [productImages, setProductImages] = useState("");
   const [price, setPrice] = useState("");
   const [lastPrice, setLastPrice] = useState("");
   const [stock, setStock] = useState("");
@@ -17,13 +17,13 @@ export default function AddProductForm() {
 
   async function handleSubmit(){
     const altNames = alternativeNames.split(",")
-    const imgUrls = imageUrls.split(",")
+    const productImagesArray = productImages.split(",")
 
     const product = {
       productId : productId,
       productName : productName,
       altNames : altNames,
-      images : imgUrls,
+      productImages : productImagesArray,
       price : price,
       lastPrice : lastPrice,
       stock : stock,
@@ -93,8 +93,8 @@ export default function AddProductForm() {
               type="text"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
               placeholder="Enter Image URLs (comma-separated)"
-              value={imageUrls}
-              onChange={(e) => setImageUrls(e.target.value)}
+              value={productImages}
+              onChange={(e) => setProductImages(e.target.value)}
             />
           </div>
 

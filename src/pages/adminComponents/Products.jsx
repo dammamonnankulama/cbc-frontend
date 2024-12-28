@@ -18,28 +18,31 @@ function Products() {
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-4">Products</h1>
       <p className="text-lg mb-6">Browse through our collection of beauty products.</p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products.map((product) => (
-          <div key={product.productId} className="bg-white p-4 rounded-lg shadow-md">
-            {product.productImages && product.productImages.length > 0 ? (
-              <img
-              src={product.productImages[0]} 
-              alt={product.productName} 
-              className="h-50 object-cover rounded-t-lg shadow-lg mx-auto" 
-              style={{ width: '50%' }} 
-            />
-            ) : (
-              <div className="w-full h-48 bg-gray-200 rounded-t-lg flex items-center justify-center">
-                <span className="text-gray-500">No Image Available</span>
-              </div>
-            )}
-            <div className="p-4">
-              <h3 className="text-xl font-bold mb-2">{product.productName}</h3>
-              <p className="text-gray-700 mb-4">{product.description}</p>
-              <p className="text-lg font-semibold">${product.price}</p>
-            </div>
-          </div>
-        ))}
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white">
+          <thead>
+            <tr>
+              <th className="py-2 px-4 border-b">Product ID</th>
+              <th className="py-2 px-4 border-b">Product Name</th>
+              <th className="py-2 px-4 border-b">Price</th>
+              <th className="py-2 px-4 border-b">Last Price</th>
+              <th className="py-2 px-4 border-b">Stock</th>
+              <th className="py-2 px-4 border-b">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product) => (
+              <tr key={product.productId}>
+                <td className="py-2 px-4 border-b">{product.productId}</td>
+                <td className="py-2 px-4 border-b">{product.productName}</td>
+                <td className="py-2 px-4 border-b">${product.price}</td>
+                <td className="py-2 px-4 border-b">${product.lastPrice}</td>
+                <td className="py-2 px-4 border-b">{product.stock}</td>
+                <td className="py-2 px-4 border-b">{product.description}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

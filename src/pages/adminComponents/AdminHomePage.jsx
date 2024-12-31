@@ -1,11 +1,12 @@
 import React from 'react'
 import { Link,Route,Routes } from 'react-router-dom'
 import { FaTachometerAlt, FaBox, FaShoppingCart, FaUsers,FaHome } from 'react-icons/fa';
-import Dashboard from './adminComponents/Dashboard';
-import Products from './adminComponents/Products';
-import Orders from './adminComponents/Orders';
-import Customers from './adminComponents/Customers';
-import AddProductForm from './adminComponents/AddProductForm';
+import Dashboard from './Dashboard';
+import Products from './Products';
+import Orders from './Orders';
+import Customers from './Customers';
+import AddProductForm from './AddProductForm';
+
 
 
 function AdminHomePage() {

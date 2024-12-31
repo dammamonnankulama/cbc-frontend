@@ -2,49 +2,57 @@ import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import uploadMediaToSupabase from "../../utils/MediaUpload";
 
 export default function AddProductForm() {
   const [productId, setProductId] = useState("");
   const [productName, setProductName] = useState("");
   const [alternativeNames, setAlternativeNames] = useState("");
-  const [productImages, setProductImages] = useState("");
+  const [imageFiles, setImageFiles] = useState([]);
+
   const [price, setPrice] = useState("");
   const [lastPrice, setLastPrice] = useState("");
   const [stock, setStock] = useState("");
   const [description, setDescription] = useState("");
   const [lowStockAlert, setLowStockAlert] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  async function handleSubmit(){
-    const altNames = alternativeNames.split(",")
-    const productImagesArray = productImages.split(",")
+  async function handleSubmit() {
+    const altNames = alternativeNames.split(",");
+
+    //Upload images to cloudinary
+    //Use the uploadMediaToSupabase function to upload each image file
+    const promisesArray = [];
+    for (let i = 0; i < imageFiles.length; i++) {
+      promisesArray[i] = uploadMediaToSupabase(imageFiles[i]);
+    }
+    const imageUrls = await Promise.all(promisesArray);
+    console.log(imageUrls);
 
     const product = {
-      productId : productId,
-      productName : productName,
-      altNames : altNames,
-      productImages : productImagesArray,
-      price : price,
-      lastPrice : lastPrice,
-      stock : stock,
-      description : description,
-      lowStockAlert: lowStockAlert
-    }
+      productId: productId,
+      productName: productName,
+      altNames: altNames,
+      productImages: imageUrls,
+      price: price,
+      lastPrice: lastPrice,
+      stock: stock,
+      description: description,
+      lowStockAlert: lowStockAlert,
+    };
 
-    const token = localStorage.getItem("token")
-    try{
-      await axios.post("http://localhost:5000/api/products",product,{
-        headers : {
-          Authorization : "Bearer "+token
-        }
-      })
-      navigate("/admin/products")
-      toast.success("Product added successfully")
-    }catch(err){
-      toast.error("Failed to add product")
+    const token = localStorage.getItem("token");
+    try {
+      await axios.post("http://localhost:5000/api/products", product, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      navigate("/admin/products");
+      toast.success("Product added successfully");
+    } catch (err) {
+      toast.error("Failed to add product");
     }
-
-    
   }
 
   return (
@@ -53,7 +61,7 @@ export default function AddProductForm() {
         <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
           Add Product Form
         </h1>
-        <div className="space-y-4" >
+        <div className="space-y-4">
           <div className="flex flex-col">
             <label className="text-gray-700 font-medium">Product ID</label>
             <input
@@ -77,7 +85,9 @@ export default function AddProductForm() {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Alternative Names</label>
+            <label className="text-gray-700 font-medium">
+              Alternative Names
+            </label>
             <input
               type="text"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
@@ -90,11 +100,12 @@ export default function AddProductForm() {
           <div className="flex flex-col">
             <label className="text-gray-700 font-medium">Image URLs</label>
             <input
-              type="text"
+              type="file"
+              multiple
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
-              placeholder="Enter Image URLs (comma-separated)"
-              value={productImages}
-              onChange={(e) => setProductImages(e.target.value)}
+              onChange={(e) => {
+                setImageFiles(e.target.files);
+              }}
             />
           </div>
 
@@ -150,12 +161,10 @@ export default function AddProductForm() {
               onChange={(e) => setLowStockAlert(e.target.value)}
             />
           </div>
-          
 
           <button
             type="submit"
             className="w-full px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:ring focus:ring-blue-300 focus:outline-none"
-            
             onClick={handleSubmit}
           >
             Add Product

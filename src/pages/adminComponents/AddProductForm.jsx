@@ -63,22 +63,24 @@ export default function AddProductForm() {
         </h1>
         <div className="space-y-4">
           <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Product ID</label>
+            <label className="text-gray-700 font-medium">Product ID<span className="text-red-500">*</span></label>
             <input
               type="text"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
               placeholder="Enter Product ID"
               value={productId}
+              required
               onChange={(e) => setProductId(e.target.value)}
             />
           </div>
 
           <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Product Name</label>
+            <label className="text-gray-700 font-medium">Product Name<span className="text-red-500">*</span></label>
             <input
               type="text"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
               placeholder="Enter Product Name"
+              required
               value={productName}
               onChange={(e) => setProductName(e.target.value)}
             />
@@ -110,9 +112,10 @@ export default function AddProductForm() {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Price</label>
+            <label className="text-gray-700 font-medium">Price<span className="text-red-500">*</span></label>
             <input
               type="number"
+              required
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
               placeholder="Enter Price"
               value={price}
@@ -121,11 +124,12 @@ export default function AddProductForm() {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Last Price</label>
+            <label className="text-gray-700 font-medium">Last Price<span className="text-red-500">*</span></label>
             <input
               type="number"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
               placeholder="Enter Last Price"
+              required
               value={lastPrice}
               onChange={(e) => setLastPrice(e.target.value)}
             />
@@ -152,12 +156,13 @@ export default function AddProductForm() {
             />
           </div>
           <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Low Stock Alert</label>
+            <label className="text-gray-700 font-medium">Low Stock Alert<span className="text-red-500">*</span></label>
             <input
               type="number"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
               placeholder="Enter Low Stock Alert Threshold"
               value={lowStockAlert}
+              required
               onChange={(e) => setLowStockAlert(e.target.value)}
             />
           </div>

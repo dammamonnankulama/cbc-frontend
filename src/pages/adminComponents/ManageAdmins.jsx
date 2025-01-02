@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 
-export default function usersPage() {
+
+export default function ManageAdmins() {
   const [users, setusers] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -11,7 +14,7 @@ export default function usersPage() {
       try {
         const response = await axios.get("http://localhost:5000/api/users");
         const filteredusers = response.data.filter(
-          (user) => user.type === "customer" 
+          (user) => user.type === "admin"
         );
         setusers(filteredusers);
       } catch (error) {
@@ -28,7 +31,7 @@ export default function usersPage() {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="w-full max-w-4xl bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-bold mb-6 text-center">Customers List</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">Admins List</h2>
 
         {/* Error Message */}
         {errorMessage && (
@@ -69,16 +72,19 @@ export default function usersPage() {
               ))
             ) : (
               <tr>
-                <td
-                  colSpan="4"
-                  className="text-center p-4 text-gray-500"
-                >
+                <td colSpan="4" className="text-center p-4 text-gray-500">
                   No users found.
                 </td>
               </tr>
             )}
           </tbody>
         </table>
+        <Link to="" className="fixed bottom-8 right-8 bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-all">
+          <FaPlus className="text-2xl" />
+        </Link>
+        
+        
+        
       </div>
     </div>
   );

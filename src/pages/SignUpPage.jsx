@@ -10,7 +10,7 @@ export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [profilePic, setProfilePic] = useState(null);
+  const [profilePicture, setProfilePicture] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -33,8 +33,8 @@ export default function SignUpPage() {
     try {
       // Upload profile picture if available
       let profilePicUrl = "";
-      if (profilePic) {
-        profilePicUrl = await uploadMediaToSupabase(profilePic);
+      if (profilePicture) {
+        profilePicUrl = await uploadMediaToSupabase(profilePicture);
       }
 
       // Create user object
@@ -43,11 +43,14 @@ export default function SignUpPage() {
         lastName,
         email,
         password,
-        profilePic: profilePicUrl,
+        profilePicture: profilePicUrl,
       };
 
       // Axios POST request
-      const response = await axios.post("http://localhost:5000/api/users", user);
+      const response = await axios.post(
+        "http://localhost:5000/api/users",
+        user
+      );
       console.log("Response:", response.data);
 
       setSuccessMessage("User registered successfully!");
@@ -67,17 +70,19 @@ export default function SignUpPage() {
         onSubmit={handleSubmit}
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
-
+  
         {/* Error Message */}
         {errorMessage && (
-          <p className="text-red-500 text-sm mb-4">{errorMessage}</p>
+          <p className="text-red-500 text-sm mb-4 text-center">{errorMessage}</p>
         )}
-
+  
         {/* Success Message */}
         {successMessage && (
-          <p className="text-green-500 text-sm mb-4">{successMessage}</p>
+          <p className="text-green-500 text-sm mb-4 text-center">
+            {successMessage}
+          </p>
         )}
-
+  
         {/* First Name */}
         <div className="mb-4">
           <label htmlFor="firstName" className="block text-gray-700">
@@ -93,7 +98,7 @@ export default function SignUpPage() {
             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
+  
         {/* Last Name */}
         <div className="mb-4">
           <label htmlFor="lastName" className="block text-gray-700">
@@ -109,7 +114,7 @@ export default function SignUpPage() {
             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
+  
         {/* Email */}
         <div className="mb-4">
           <label htmlFor="email" className="block text-gray-700">
@@ -125,7 +130,7 @@ export default function SignUpPage() {
             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
+  
         {/* Password */}
         <div className="mb-4">
           <label htmlFor="password" className="block text-gray-700">
@@ -141,7 +146,7 @@ export default function SignUpPage() {
             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
+  
         {/* Confirm Password */}
         <div className="mb-4">
           <label htmlFor="confirmPassword" className="block text-gray-700">
@@ -157,7 +162,7 @@ export default function SignUpPage() {
             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
+  
         {/* Profile Picture */}
         <div className="mb-6">
           <label htmlFor="profilePic" className="block text-gray-700">
@@ -166,19 +171,28 @@ export default function SignUpPage() {
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => setProfilePic(e.target.files[0])}
+            onChange={(e) => setProfilePicture(e.target.files[0])}
             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
+  
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           Sign Up
         </button>
+  
+        <Link to="/login">
+          <button
+            type="button"
+            className="w-full mt-4 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
+          >
+            Already have an account? Log In
+          </button>
+        </Link>
       </form>
-
+  
       <div className="absolute top-4 left-4">
         <Link to="/">
           <button className="flex items-center bg-gray-200 p-2 rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -188,4 +202,5 @@ export default function SignUpPage() {
       </div>
     </div>
   );
+  
 }

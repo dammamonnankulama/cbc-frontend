@@ -6,7 +6,7 @@ import Products from './Products';
 import Orders from './Orders';
 import Customers from './Customers';
 import AddProductForm from './AddProductForm';
-
+import ManageAdmins from './ManageAdmins';
 
 
 function AdminHomePage() {
@@ -27,6 +27,9 @@ function AdminHomePage() {
           <Link className="flex items-center bg-blue-700 hover:bg-blue-600 py-2 px-4 rounded" to ="/admin/customers">
             <FaUsers className="mr-2" /> Customers
           </Link>
+          <Link className="flex items-center bg-blue-700 hover:bg-blue-600 py-2 px-4 rounded" to ="/admin/admins">
+            <FaUsers className="mr-2" /> Website Admins
+          </Link>
           
           <Link className="flex items-center bg-blue-700 hover:bg-blue-600 py-2 px-4 rounded mt-auto" to ="/">
           <FaHome className="mr-2" /> Back to HomePage
@@ -42,6 +45,8 @@ function AdminHomePage() {
           <Route path="products/addProduct" element={<AddProductForm/>} />
           <Route path="orders" element={<Orders />} />
           <Route path="customers" element={<Customers />} />
+          <Route path="admins" element={<ManageAdmins />} />
+
 
           {/* Default Route (Redirects to Dashboard) */}
           <Route path="*" element={<Dashboard />} />

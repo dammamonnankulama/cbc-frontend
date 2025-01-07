@@ -2,8 +2,12 @@ import { createClient } from "@supabase/supabase-js";
 
 
 // Load environment variables
-const key = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0ZWV0b3h6d2l3cm92b29oZHBkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU2NDU3MDgsImV4cCI6MjA1MTIyMTcwOH0.ryvI2MMbtHx6KLDz1G8YhgIAuoRgtAxQBao5qd69cpM`;
-const url = "https://dteetoxzwiwrovoohdpd.supabase.co";
+
+const url = import.meta.env.VITE_SUPABASE_URL;
+const key = import.meta.env.VITE_SUPABASE_KEY;
+
+//const key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0ZWV0b3h6d2l3cm92b29oZHBkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU2NDU3MDgsImV4cCI6MjA1MTIyMTcwOH0.ryvI2MMbtHx6KLDz1G8YhgIAuoRgtAxQBao5qd69cpM'
+//const url = "https://dteetoxzwiwrovoohdpd.supabase.co"
 
 const supabase = createClient(url, key);
 

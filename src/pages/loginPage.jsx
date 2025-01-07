@@ -21,8 +21,8 @@ const LoginPage = () => {
       return;
     }
     setError(''); // Clear previous errors
-    console.log("Email:", email, "Password:", password);
-    axios.post("http://localhost:5000/api/users/login", { email, password })
+    console.log("Email:", email);
+    axios.post(import.meta.env.VITE_BACKEND_URL+"/api/users/login", { email, password })
       .then((res) => {
         if (res.data.user == null) {
           toast.error(res.data.message);

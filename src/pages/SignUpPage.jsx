@@ -47,8 +47,7 @@ export default function SignUpPage() {
       };
 
       // Axios POST request
-      const response = await axios.post(
-        "http://localhost:5000/api/users",
+      const response = await axios.post(import.meta.env.VITE_BACKEND_URL+"/api/users",
         user
       );
       console.log("Response:", response.data);

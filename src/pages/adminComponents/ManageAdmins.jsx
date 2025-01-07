@@ -12,7 +12,7 @@ export default function ManageAdmins() {
     // Fetch users on component mount
     const fetchusers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/users");
+        const response = await axios.get(import.meta.env.VITE_BACKEND_URL+"/api/users");
         const filteredusers = response.data.filter(
           (user) => user.type === "admin"
         );

@@ -7,6 +7,7 @@ import Orders from './Orders';
 import Customers from './Customers';
 import AddProductForm from './AddProductForm';
 import ManageAdmins from './ManageAdmins';
+import EditProductForm from './EditProductForm';
 
 
 function AdminHomePage() {
@@ -43,6 +44,7 @@ function AdminHomePage() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="products" element={<Products />} />
           <Route path="products/addProduct" element={<AddProductForm/>} />
+          <Route path="products/editProducts" element={<EditProductForm/>} />
           <Route path="orders" element={<Orders />} />
           <Route path="customers" element={<Customers />} />
           <Route path="admins" element={<ManageAdmins />} />

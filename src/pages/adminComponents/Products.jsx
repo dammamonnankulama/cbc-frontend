@@ -70,10 +70,10 @@ function Products() {
                   <td className="py-3 px-6 text-gray-600">{product.description}</td>
                   <td className="py-3 px-6 text-center">
                     <div className="flex justify-center items-center space-x-4">
-                      <Link to={`/edit-product/${product.productId}`} className="text-blue-500 hover:text-blue-700">
+                      <button onClick={() => handleEdit(product.productId)} className="text-blue-500 hover:text-blue-700" title='Edit'>
                         <FaEdit className="text-xl" />
-                      </Link>
-                      <button onClick={() => handleDelete(product.productId)} className="text-red-500 hover:text-red-700">
+                      </button>
+                      <button onClick={() => handleDelete(product.productId)} className="text-red-500 hover:text-red-700" title='Delete'>
                         <FaTrash className="text-xl" />
                       </button>
                     </div>

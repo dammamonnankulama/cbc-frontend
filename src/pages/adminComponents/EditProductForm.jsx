@@ -33,7 +33,7 @@ export default function EditProductForm() {
   const [lowStockAlert, setLowStockAlert] = useState(product.lowStockAlert);
 
   async function handleSubmit() {
-    
+    const altNames = alternativeNames.split(",");
 
     //Upload images to cloudinary
     //Use the uploadMediaToSupabase function to upload each image file
@@ -75,9 +75,9 @@ export default function EditProductForm() {
         }
       );
       navigate("/admin/products");
-      toast.success("Product updated successfully");
+      toast.success("Product Updated successfully");
     } catch (err) {
-      toast.error("Failed to update product");
+      toast.error("Failed to Update product");
     }
   }
 

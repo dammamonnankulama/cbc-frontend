@@ -13,11 +13,12 @@ function NavBar() {
     <nav className="space-x-5 flex items-center">
       
      
-      <Link to="/help-center" className="flex items-center bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-all">
-        <span className="mr-2">Help Center</span>
+      <Link to="/" className="flex items-center bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-all">
+        <span className="mr-2">Home</span>
       </Link>
-      <Link to="/offers" className="flex items-center bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition-all">
-        <span className="mr-2">Offers</span>
+      
+      <Link to="/products" className="flex items-center bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition-all">
+        <span className="mr-2">Products</span>
       </Link>
       <Link to="/get-app" className="flex items-center bg-purple-500 text-white py-2 px-4 rounded-lg hover:bg-purple-600 transition-all">
         <span className="mr-2">Get App</span>

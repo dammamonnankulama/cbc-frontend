@@ -7,24 +7,25 @@ import "./App.css";
 import AdminHomePage from './pages/adminComponents/AdminHomePage';
 import { Toaster } from 'react-hot-toast'
 import NotFoundPage from './pages/notfoundPage';
+import ProductsPage from './pages/homePageComponents/ProductsPage';
 
 
 function App() {
   return (
     <BrowserRouter>
       <Toaster position='top-right'/>
-      <Routes>
+      <Routes >  
         {/* Root route with nested routes */}
-        <Route path="/" element={<HomePage />} />
+        <Route path="/*" element={<HomePage />} />
         
-
         {/* Other Main Routes  */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/admin/*" element={<AdminHomePage />} />
-        <Route path="/*" element={<NotFoundPage />} />
         
-               
+        <Route path="/admin/*" element={<AdminHomePage />} />
+        {/* Not Found Route */}
+        
+        
       </Routes>
     </BrowserRouter>
   );

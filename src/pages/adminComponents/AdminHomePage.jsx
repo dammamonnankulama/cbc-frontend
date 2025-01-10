@@ -43,7 +43,7 @@ function AdminHomePage() {
           {/* Specific Routes */}
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="products" element={<Products />} />
-          <Route path="products/addProduct" element={<AddProductForm/>} />
+          <Route path="products/addProducts" element={<AddProductForm/>} />
           <Route path="products/editProducts" element={<EditProductForm/>} />
           <Route path="orders" element={<Orders />} />
           <Route path="customers" element={<Customers />} />

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 
@@ -18,6 +18,9 @@ function Products() {
         console.error('Error fetching products:', err);
       });
   }, [fetchTrigger]); // Depend on fetchTrigger to refetch when it changes
+
+  // edit product navigation
+  const navigate = useNavigate();
 
   const handleDelete = (productId) => {
     const token = localStorage.getItem("token");
@@ -70,7 +73,13 @@ function Products() {
                   <td className="py-3 px-6 text-gray-600">{product.description}</td>
                   <td className="py-3 px-6 text-center">
                     <div className="flex justify-center items-center space-x-4">
-                      <button onClick={() => handleEdit(product.productId)} className="text-blue-500 hover:text-blue-700" title='Edit'>
+                      <button onClick={
+                        () =>{
+                          // Navigate to edit product page
+                          navigate(`/admin/products/editProducts`, {state: {product: product}});
+                        }
+                         }
+                          className="text-blue-500 hover:text-blue-700" title='Edit'>
                         <FaEdit className="text-xl" />
                       </button>
                       <button onClick={() => handleDelete(product.productId)} className="text-red-500 hover:text-red-700" title='Delete'>
@@ -85,7 +94,7 @@ function Products() {
         </div>
 
         {/* Add Product Button */}
-        <Link to="/admin/products/addProduct" className="fixed bottom-8 right-8 bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-all">
+        <Link to="/admin/products/addProducts" className="fixed bottom-8 right-8 bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-all">
           <FaPlus className="text-2xl" />
         </Link>
       </div>

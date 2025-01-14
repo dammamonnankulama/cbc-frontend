@@ -14,6 +14,7 @@ function HomePage() {
           <Route path="/" element={<h1>Home Page</h1>} />
           <Route path="/login" element={<LoginPage/>} />
           <Route path="/products" element={<ProductsPage/>} />
+          
           <Route path="/productInfo/:id" element={<ProductInfo />} />
           
           

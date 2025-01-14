@@ -64,8 +64,8 @@ function Products() {
                 <tr key={product.productId} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
                   <td className="py-3 px-6 text-gray-800">{product.productId}</td>
                   <td className="py-3 px-6 text-gray-800">{product.productName}</td>
-                  <td className="py-3 px-6 text-gray-800">${product.price}</td>
-                  <td className="py-3 px-6 text-gray-800">${product.lastPrice}</td>
+                  <td className="py-3 px-6 text-gray-800">LKR.{product.price}</td>
+                  <td className="py-3 px-6 text-gray-800">LKR.{product.lastPrice}</td>
                   <td className="py-3 px-6 text-gray-800">{product.stock}</td>
                   <td className={`py-3 px-6 ${product.stock <= product.lowStockAlert ? 'text-red-500' : 'text-gray-800'}`}>
                     {product.lowStockAlert}

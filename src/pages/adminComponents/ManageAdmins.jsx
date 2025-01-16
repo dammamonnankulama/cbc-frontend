@@ -58,7 +58,7 @@ export default function ManageAdmins() {
                     <img
                       src={user.profilePicture || "/default-profile.png"}
                       alt={`${user.firstName}'s profile`}
-                      className="w-10 h-10 rounded-full mx-auto"
+                      className="w-10 h-10 rounded-full mx-auto object-cover"
                     />
                   </td>
                   <td className="border border-gray-300 p-2">

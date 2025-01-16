@@ -33,7 +33,7 @@ export default function EditProductForm() {
   const [lowStockAlert, setLowStockAlert] = useState(product.lowStockAlert);
 
   async function handleSubmit() {
-    const altNames = alternativeNames.split(",");
+    const altNames = alternativeNames.join(",").split(",");
 
     //Upload images to cloudinary
     //Use the uploadMediaToSupabase function to upload each image file

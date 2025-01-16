@@ -19,15 +19,16 @@ export function addToCart(productId, qty) {
   
     if (existingProductIndex !== -1) {
       // If the product is already in the cart, update the quantity
-      cart[existingProductIndex].quantity += quantity;
-      if (cart[existingProductIndex].quantity <= 0) {
+      cart[existingProductIndex].qty += qty;
+      if (cart[existingProductIndex].qty <= 0) {
         // If the quantity is 0 or less, remove the product from the cart
         cart.splice(existingProductIndex, 1);
       }
     } else {
       // If the product is not in the cart, add it
-      cart.push({ productId, quantity });
+      cart.push({ productId, qty });
     }
+    saveCart(cart);
   
   }
   export function saveCart(cart) {

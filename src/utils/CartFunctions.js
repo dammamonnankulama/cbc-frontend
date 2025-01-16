@@ -30,3 +30,6 @@ export function addToCart(productId, qty) {
     }
   
   }
+  export function saveCart(cart) {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }

@@ -15,6 +15,7 @@ function ProductsPage() {
           console.log(res.data);
           setProducts(res.data);
           setLoadingStatus("loaded");
+          toast.success('Products fetched successfully');
         })
         .catch((err) => {
           toast.error('Error fetching products:', err);

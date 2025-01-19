@@ -36,3 +36,14 @@ export function saveCart(cart) {
 export function clearCart() {
   localStorage.removeItem("cart");
 }
+
+export function deleteItem(productId) {
+  let cart = loadCart();
+  const existingProductIndex = cart.findIndex(
+    (item) => item.productId === productId
+  );
+  if (existingProductIndex !== -1) {
+    cart.splice(existingProductIndex, 1);
+  }
+  saveCart(cart);
+}

@@ -2,13 +2,32 @@ import React, { useEffect, useState } from "react";
 import { loadCart, deleteItem } from "../../utils/CartFunctions";
 import toast from "react-hot-toast";
 import ShoppingCartCard from "../../components/ShoppingCartCard";
+import axios from "axios";
 
 function ShoppingCart() {
   const [cartItems, setCartItems] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     setCartItems(loadCart());
+    console.log(loadCart());
+    axios.post(import.meta.env.VITE_BACKEND_URL + "/api/orders/quote", {
+      orderedItems: loadCart()
+    })
+    .then((res) => {
+      console.log(res.data);
+     
+    })
+    .catch((error) => {
+      console.error("There was an error processing your request:", error);
+      toast.error("Failed to fetch the quote. Please try again later.");
+    });
+
   }, []);
+
+  function onOrderCheckOut  ()  {
+    toast.success("Proceeding to checkout");
+  };
 
   return (
     <div className="w-full h-full overflow-y-scroll flex flex-col items-end bg-gray-50 p-6">
@@ -41,7 +60,7 @@ function ShoppingCart() {
       <div className="mt-6 flex justify-end w-full">
         <button
           onClick={() => {
-            toast.success("Proceeding to checkout");
+           // toast.success("Proceeding to checkout");
           }}
           className="px-8 py-3 bg-green-500 text-white font-semibold rounded-lg shadow hover:bg-green-600 transition duration-300"
         >

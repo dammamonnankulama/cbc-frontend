@@ -6,7 +6,10 @@ import axios from "axios";
 
 function ShoppingCart() {
   const [cartItems, setCartItems] = useState([]);
+ const [labeledTotalPrice, setLabeledTotalPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+
+  
 
   useEffect(() => {
     setCartItems(loadCart());
@@ -16,6 +19,9 @@ function ShoppingCart() {
     })
     .then((res) => {
       console.log(res.data);
+      setLabeledTotalPrice(res.data.labeledTotalPrice);
+      setTotalPrice(res.data.totalPrice);
+      
      
     })
     .catch((error) => {
@@ -30,20 +36,20 @@ function ShoppingCart() {
   };
 
   return (
-    <div className="w-full h-full overflow-y-scroll flex flex-col items-end bg-gray-50 p-6">
-      <table className="w-full table-auto border-collapse bg-white shadow-md rounded-lg overflow-hidden">
-        <thead className="bg-gray-200 text-gray-700 font-medium">
+    <div className="w-full h-full overflow-y-scroll flex flex-col items-end bg-gradient-to-b from-gray-50 to-gray-100 p-8">
+      <table className="w-full table-auto border-collapse bg-white shadow-xl rounded-lg overflow-hidden">
+        <thead className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white">
           <tr>
-            <th className="py-3 px-4 text-left">Image</th>
-            <th className="py-3 px-4 text-center">Product Name</th>
-            <th className="py-3 px-4 text-center">Product ID</th>
-            <th className="py-3 px-4 text-center">Qty</th>
-            <th className="py-3 px-4 text-center">Price</th>
-            <th className="py-3 px-4 text-center">Total</th>
-            <th className="py-3 px-4 text-center">Actions</th>
+            <th className="py-3 px-4 text-left uppercase tracking-wide">Image</th>
+            <th className="py-3 px-4 text-center uppercase tracking-wide">Product Name</th>
+            <th className="py-3 px-4 text-center uppercase tracking-wide">Product ID</th>
+            <th className="py-3 px-4 text-center uppercase tracking-wide">Qty</th>
+            <th className="py-3 px-4 text-center uppercase tracking-wide">Price</th>
+            <th className="py-3 px-4 text-center uppercase tracking-wide">Total</th>
+            <th className="py-3 px-4 text-center uppercase tracking-wide">Actions</th>
           </tr>
         </thead>
-        <tbody className="text-gray-800">
+        <tbody className="text-gray-800 bg-white divide-y divide-gray-200">
           {cartItems.map((item) => (
             <ShoppingCartCard
               key={item.productId}
@@ -56,19 +62,36 @@ function ShoppingCart() {
           ))}
         </tbody>
       </table>
-
-      <div className="mt-6 flex justify-end w-full">
+  
+      <div className="w-full bg-white shadow-md rounded-lg p-6 mt-8">
+        <h1 className="text-2xl font-semibold text-gray-700 mb-4">Summary</h1>
+        <div className="flex justify-between items-center text-lg mb-2">
+          <span className="font-medium text-gray-600">Total:</span>
+          <span className="font-bold text-gray-800">LKR {labeledTotalPrice.toFixed(2)}</span>
+        </div>
+        <div className="flex justify-between items-center text-lg mb-2">
+          <span className="font-medium text-gray-600">Discount:</span>
+          <span className="font-bold text-green-600">-LKR {(labeledTotalPrice - totalPrice).toFixed(2)}</span>
+        </div>
+        <div className="flex justify-between items-center text-lg mb-4 border-t pt-4">
+          <span className="font-medium text-gray-600">Grand Total:</span>
+          <span className="font-bold text-indigo-600">LKR {totalPrice.toFixed(2)}</span>
+        </div>
+      </div>
+  
+      <div className="mt-8 flex justify-end w-full">
         <button
           onClick={() => {
-           // toast.success("Proceeding to checkout");
+            toast.success("Proceeding to checkout");
           }}
-          className="px-8 py-3 bg-green-500 text-white font-semibold rounded-lg shadow hover:bg-green-600 transition duration-300"
+          className="px-10 py-4 bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105"
         >
           Checkout
         </button>
       </div>
     </div>
   );
+  
 }
 
 export default ShoppingCart;

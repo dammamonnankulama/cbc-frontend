@@ -36,7 +36,7 @@ const LoginPage = () => {
           navigate("/admin")
         } else {
          // window.location.href = "/";
-          navigate("/")
+          navigate("/cart")
         }
       })
       .catch((err) => {

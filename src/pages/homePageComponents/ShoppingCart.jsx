@@ -32,7 +32,28 @@ function ShoppingCart() {
   }, []);
 
   function onOrderCheckOut  ()  {
-    toast.success("Proceeding to checkout");
+    const token = localStorage.getItem("token");
+
+
+    if(token === null) {
+      return;
+    }
+    //toast.success("Proceeding to checkout");
+    axios.post(import.meta.env.VITE_BACKEND_URL + "/api/orders", {
+      orderedItems: cartItems,
+      // temporary customer details
+      name: "John Doe",
+      address: "123, Main Street, Colombo",
+      phone: "0792345678",
+    },{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  ).then((res) => {
+    console.log(res.data);
+    toast.success("Order placed successfully");
+  });
   };
 
   return (
@@ -81,9 +102,7 @@ function ShoppingCart() {
   
       <div className="mt-8 flex justify-end w-full">
         <button
-          onClick={() => {
-            toast.success("Proceeding to checkout");
-          }}
+          onClick={onOrderCheckOut}
           className="px-10 py-4 bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105"
         >
           Checkout

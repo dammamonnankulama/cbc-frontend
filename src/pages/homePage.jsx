@@ -17,6 +17,7 @@ function HomePage() {
           <Route path="/products" element={<ProductsPage/>} />
           <Route path="/cart" element={<ShoppingCart/>} />
           
+          
           <Route path="/productInfo/:id" element={<ProductInfo />} />
           
           

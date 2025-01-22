@@ -29,7 +29,10 @@ function NavBar() {
       <Link to="/signup" className="flex items-center bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-all">
         <span className="mr-2">Sign Up</span>
       </Link>
-      
+      <Link to="/cart" className="flex items-center bg-pink-500 text-white py-2 px-4 rounded-lg hover:bg-pink-600 transition-all">
+        <FaShoppingCart className="mr-2" />
+        <span>Cart</span>
+      </Link>
     </nav>
   </header>
 

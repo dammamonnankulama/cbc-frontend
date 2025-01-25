@@ -23,6 +23,7 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         
         <Route path="/admin/*" element={<AdminHomePage />} />
+       
         {/* Not Found Route */}
         
         

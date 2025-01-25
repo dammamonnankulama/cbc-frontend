@@ -14,6 +14,8 @@ function Orders() {
         });
         setOrders(response.data);
         console.log(response.data);
+        
+        
       } catch (err) {
         console.error('Error fetching orders:', err);
       }
@@ -29,18 +31,19 @@ function Orders() {
         {orders.map((order) => (
           <div key={order.id} className="bg-white p-4 rounded-lg shadow-lg">
             <h2 className="text-xl font-bold mb-2">Order ID: {order.orderId}</h2>
+           
             <p className="text-gray-700 mb-4">Customer Name: {order.name}</p>
             <p className="text-gray-600 mb-4">Address: {order.address}</p>
             <p className="text-gray-600 mb-4">Phone: {order.phone}</p>
-            <p className="text-gray-600 mb-4">Total: ${order.totalPrice}</p>
+            <p className="text-gray-600 mb-4">Total: Rs.{order.totalPrice}</p>
             <p className="text-gray-600 mb-4">Status: {order.status}</p>
             <div className="text-gray-600">
               <h3 className="font-bold mb-2">Items:</h3>
               <ul>
-                {Array.isArray(order.Items) && order.Items.length > 0 ? (
-                  order.items.map((item) => (
+                {Array.isArray(order.orderedItems) && order.orderedItems.length > 0 ? (
+                  order.orderedItems.map((item) => (
                     <li key={item.productId}>
-                      {item.productName} x {item.quantity}
+                      {item.name} x {item.qty}
                     </li>
                   ))
                 ) : (

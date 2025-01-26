@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ShoppingCartCard from "../../components/ShoppingCartCard";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
+import { clearCart } from "../../utils/CartFunctions";
 
 function ShippingPage() {
   const location = useLocation();
@@ -16,7 +17,7 @@ function ShippingPage() {
   const [phone, setPhone] = useState("");
 
   useEffect(() => {
-    if (cart.length === 0) {
+    if (!cart) {
       toast.error("Your cart is empty. Redirecting to cart...");
       navigate("/cart");
       return;
@@ -65,6 +66,7 @@ function ShippingPage() {
       })
       .then((res) => {
         toast.success("Order placed successfully!");
+        clearCart();
         navigate("/");
       })
       .catch((error) => {

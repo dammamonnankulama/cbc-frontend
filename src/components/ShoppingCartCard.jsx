@@ -40,16 +40,7 @@ function ShoppingCartCard({ productId, qty, deleteItem, setCartItems, loadCart }
       <td className="py-4 px-4 text-center">LKR. {product?.lastPrice.toFixed(2)}</td>
       <td className="py-4 px-4 text-center">LKR. {(product?.lastPrice * qty).toFixed(2)}</td>
       <td className="py-4 px-4 text-center">
-        <button
-          onClick={() => {
-            deleteItem(productId);
-            setCartItems(loadCart()); // Updates the cart
-            toast.success("Item removed from cart");
-          }}
-          className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
-        >
-          Remove
-        </button>
+        
       </td>
     </tr>
   );

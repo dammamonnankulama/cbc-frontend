@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { deleteItem } from "../utils/CartFunctions";
 import toast from "react-hot-toast";
 
 function ShoppingCartCard({ productId, qty, deleteItem, setCartItems, loadCart }) {
@@ -16,14 +15,21 @@ function ShoppingCartCard({ productId, qty, deleteItem, setCartItems, loadCart }
             setProduct(res.data);
             setLoaded(true);
           } else {
-            deleteItem(productId);
+            onDelete();
           }
         })
         .catch((err) => {
           console.error("Error fetching products:", err);
         });
     }
-  }, [loaded, productId, deleteItem]);
+  }, [loaded, productId]);
+
+  const onDelete = () => {
+    deleteItem(productId); // Delete the item from local storage or backend
+    const updatedCart = loadCart(); // Reload the cart items
+    setCartItems(updatedCart); // Update the parent state with the updated cart items
+    toast.error(`${product?.productName || "Item"} removed from the cart.`);
+  };
 
   return (
     <tr className="hover:bg-green-100 border-b">
@@ -37,10 +43,17 @@ function ShoppingCartCard({ productId, qty, deleteItem, setCartItems, loadCart }
       <td className="py-4 px-4 text-center">{product?.productName}</td>
       <td className="py-4 px-4 text-center">{productId}</td>
       <td className="py-4 px-4 text-center">{qty}</td>
-      <td className="py-4 px-4 text-center">LKR. {product?.lastPrice.toFixed(2)}</td>
-      <td className="py-4 px-4 text-center">LKR. {(product?.lastPrice * qty).toFixed(2)}</td>
+      <td className="py-4 px-4 text-center">LKR. {product?.lastPrice?.toFixed(2)}</td>
       <td className="py-4 px-4 text-center">
-        
+        LKR. {(product?.lastPrice * qty).toFixed(2)}
+      </td>
+      <td className="py-4 px-4 text-center">
+        <button
+          onClick={onDelete}
+          className="px-4 py-2 bg-red-500 text-white font-medium rounded shadow hover:bg-red-600"
+        >
+          Delete
+        </button>
       </td>
     </tr>
   );

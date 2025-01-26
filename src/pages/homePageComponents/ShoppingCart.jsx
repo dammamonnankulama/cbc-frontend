@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { loadCart, deleteItem, clearCart } from "../../utils/CartFunctions";
+import { loadCart, deleteItem } from "../../utils/CartFunctions";
 import toast from "react-hot-toast";
 import ShoppingCartCard from "../../components/ShoppingCartCard";
 import axios from "axios";
@@ -12,32 +12,43 @@ function ShoppingCart() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const items = loadCart();
-    setCartItems(items);
-
+  // Function to recalculate totals
+  const recalculateCart = (updatedCart) => {
     axios
       .post(import.meta.env.VITE_BACKEND_URL + "/api/orders/quote", {
-        orderedItems: items,
+        orderedItems: updatedCart,
       })
       .then((res) => {
-        console.log(res.data);
         setLabeledTotalPrice(res.data.labeledTotalPrice);
         setTotalPrice(res.data.totalPrice);
       })
       .catch((error) => {
-        console.error("There was an error processing your request:", error);
-        toast.error("Failed to fetch the quote. Please try again later.");
+        console.error("Error recalculating totals:", error);
+        toast.error("Failed to recalculate totals.");
       });
+  };
+
+  useEffect(() => {
+    const items = loadCart();
+    setCartItems(items);
+    recalculateCart(items); // Calculate totals on load
   }, []);
 
-  function onOrderCheckOut() {
+  const handleDeleteItem = (productId) => {
+    deleteItem(productId); // Remove the item
+    const updatedCart = loadCart(); // Get the updated cart
+    setCartItems(updatedCart); // Update state
+    recalculateCart(updatedCart); // Recalculate totals
+    toast.success("Item removed from the cart!");
+  };
+
+  const onOrderCheckOut = () => {
     navigate("/shipping", {
       state: {
         items: cartItems,
       },
     });
-  }
+  };
 
   return (
     <div className="w-full h-full overflow-y-scroll flex flex-col items-end bg-gradient-to-b from-gray-50 to-gray-100 p-8">
@@ -74,9 +85,7 @@ function ShoppingCart() {
                 key={item.productId}
                 productId={item.productId}
                 qty={item.qty}
-                deleteItem={deleteItem}
-                setCartItems={setCartItems}
-                loadCart={loadCart}
+                deleteItem={handleDeleteItem}
               />
             ))
           ) : (

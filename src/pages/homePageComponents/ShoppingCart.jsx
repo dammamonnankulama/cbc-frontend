@@ -3,12 +3,14 @@ import { loadCart, deleteItem, clearCart } from "../../utils/CartFunctions";
 import toast from "react-hot-toast";
 import ShoppingCartCard from "../../components/ShoppingCartCard";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 
 function ShoppingCart() {
   const [cartItems, setCartItems] = useState([]);
   const [labeledTotalPrice, setLabeledTotalPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const items = loadCart();
@@ -29,58 +31,14 @@ function ShoppingCart() {
       });
   }, []);
 
- 
-
-  
-
   function onOrderCheckOut() {
-    
-
-    
-    
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      toast.error("You must be logged in to checkout.");
-      return;
-    }
-
-    const payload = {
-      orderedItems: cartItems.map((item) => ({
-        productId: item.productId,
-        
-        qty: item.qty,
-      })),
-      name: "John Doe",
-      address: "123, Main Street, Colombo",
-      phone: "0792345678",
-      totalPrice: totalPrice,
-    };
-
-    console.log("Payload being sent:", payload); // Debugging log
-
-    axios
-      .post(import.meta.env.VITE_BACKEND_URL + "/api/orders", payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log("Order Response:", res.data);
-        
-        toast.success("Order placed successfully");
-        clearCart();
-      })
-      .catch((error) => {
-        console.error("Error placing order:", error);
-        toast.error("Failed to place the order. Please try again.");
-      });
-      
+    navigate("/shipping", {
+      state: {
+        items: cartItems,
+      },
+    });
   }
-  //testing branching
-  
- 
-      
+
   return (
     <div className="w-full h-full overflow-y-scroll flex flex-col items-end bg-gradient-to-b from-gray-50 to-gray-100 p-8">
       <table className="w-full table-auto border-collapse bg-white shadow-xl rounded-lg overflow-hidden">
@@ -156,7 +114,6 @@ function ShoppingCart() {
       <div className="mt-8 flex justify-end w-full">
         <button
           onClick={onOrderCheckOut}
-         
           className="px-10 py-4 bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105"
         >
           Checkout

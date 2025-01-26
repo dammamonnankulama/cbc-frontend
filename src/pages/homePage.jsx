@@ -5,6 +5,7 @@ import LoginPage from './LoginPage'
 import ProductInfo from './homePageComponents/ProductInfo'
 import ProductsPage from './homePageComponents/ProductsPage'
 import ShoppingCart from './homePageComponents/ShoppingCart'
+import ShippingPage from './homePageComponents/ShippingPage'
 
 function HomePage() {
   return (
@@ -16,6 +17,7 @@ function HomePage() {
           <Route path="/login" element={<LoginPage/>} />
           <Route path="/products" element={<ProductsPage/>} />
           <Route path="/cart" element={<ShoppingCart/>} />
+          <Route path="/shipping" element={<ShippingPage />} />
           
           
           <Route path="/productInfo/:id" element={<ProductInfo />} />

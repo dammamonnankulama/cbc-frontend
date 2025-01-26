@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { loadCart, deleteItem } from "../../utils/CartFunctions";
+import { loadCart, deleteItem, clearCart } from "../../utils/CartFunctions";
 import toast from "react-hot-toast";
 import ShoppingCartCard from "../../components/ShoppingCartCard";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+
 
 function ShoppingCart() {
   const [cartItems, setCartItems] = useState([]);
@@ -67,7 +67,9 @@ function ShoppingCart() {
       })
       .then((res) => {
         console.log("Order Response:", res.data);
+        
         toast.success("Order placed successfully");
+        clearCart();
       })
       .catch((error) => {
         console.error("Error placing order:", error);

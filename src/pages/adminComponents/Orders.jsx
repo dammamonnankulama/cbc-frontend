@@ -170,6 +170,7 @@ function Orders() {
                   className="border p-2 rounded"
                 >
                   <option value="pending">Pending</option>
+                  <option value="preparing">preparing</option>
                   <option value="completed">Completed</option>
                   <option value="delivered">Delivered</option>
                   <option value="paused">Paused</option>

@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 function MyOrders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -27,6 +28,14 @@ function MyOrders() {
         setLoading(false);
       });
   }, []);
+
+  const handleRowClick = (order) => {
+    setSelectedOrder(order);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedOrder(null);
+  };
 
   if (loading) {
     return (
@@ -54,7 +63,11 @@ function MyOrders() {
           </thead>
           <tbody>
             {orders.map((order) => (
-              <tr key={order.orderId} className="hover:bg-gray-100">
+              <tr
+                key={order.orderId}
+                className="hover:bg-gray-100 cursor-pointer"
+                onClick={() => handleRowClick(order)}
+              >
                 <td className="p-4 border-b">{order.orderId}</td>
                 <td className="p-4 border-b">{order.name}</td>
                 <td className="p-4 border-b">{order.address}</td>
@@ -66,6 +79,48 @@ function MyOrders() {
             ))}
           </tbody>
         </table>
+      )}
+
+      {/* Modal */}
+      {selectedOrder && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-2xl">
+            <h2 className="text-xl font-bold mb-4">Order Details</h2>
+            <p>
+              <strong>Order ID:</strong> {selectedOrder.orderId}
+            </p>
+            <p>
+              <strong>Name:</strong> {selectedOrder.name}
+            </p>
+            <p>
+              <strong>Address:</strong> {selectedOrder.address}
+            </p>
+            <p>
+              <strong>Status:</strong> {selectedOrder.status}
+            </p>
+            <p className="mb-4">
+              <strong>Total:</strong> Rs.
+              {selectedOrder.orderedItems
+                .reduce((acc, item) => acc + item.price * item.qty, 0)
+                .toFixed(2)}
+            </p>
+            <h3 className="text-lg font-bold mb-2">Ordered Items</h3>
+            <ul className="mb-4">
+              {selectedOrder.orderedItems.map((item, index) => (
+                <li key={index} className="mb-2">
+                  <strong>{item.name}</strong> - {item.qty} x Rs.{item.price.toFixed(2)} = Rs.
+                  {(item.qty * item.price).toFixed(2)}
+                </li>
+              ))}
+            </ul>
+            <button
+              onClick={handleCloseModal}
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+            >
+              Close
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

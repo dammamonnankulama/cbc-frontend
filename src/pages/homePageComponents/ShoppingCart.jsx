@@ -10,75 +10,46 @@ function ShoppingCart() {
   const [labeledTotalPrice, setLabeledTotalPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  useEffect(() => {
-    const items = loadCart();
-    setCartItems(items);
+  const navigate = useNavigate();
 
+  // Function to recalculate totals
+  const recalculateCart = (updatedCart) => {
     axios
       .post(import.meta.env.VITE_BACKEND_URL + "/api/orders/quote", {
-        orderedItems: items,
+        orderedItems: updatedCart,
       })
       .then((res) => {
-        console.log(res.data);
         setLabeledTotalPrice(res.data.labeledTotalPrice);
         setTotalPrice(res.data.totalPrice);
       })
       .catch((error) => {
-        console.error("There was an error processing your request:", error);
-        toast.error("Failed to fetch the quote. Please try again later.");
+        console.error("Error recalculating totals:", error);
+        toast.error("Failed to recalculate totals.");
       });
+  };
+
+  useEffect(() => {
+    const items = loadCart();
+    setCartItems(items);
+    recalculateCart(items); // Calculate totals on load
   }, []);
 
- 
+  const handleDeleteItem = (productId) => {
+    deleteItem(productId); // Remove the item
+    const updatedCart = loadCart(); // Get the updated cart
+    setCartItems(updatedCart); // Update state
+    recalculateCart(updatedCart); // Recalculate totals
+    toast.success("Item removed from the cart!");
+  };
 
-  
+  const onOrderCheckOut = () => {
+    navigate("/shipping", {
+      state: {
+        items: cartItems,
+      },
+    });
+  };
 
-  function onOrderCheckOut() {
-    
-
-    
-    
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      toast.error("You must be logged in to checkout.");
-      return;
-    }
-
-    const payload = {
-      orderedItems: cartItems.map((item) => ({
-        productId: item.productId,
-        
-        qty: item.qty,
-      })),
-      name: "John Doe",
-      address: "123, Main Street, Colombo",
-      phone: "0792345678",
-      totalPrice: totalPrice,
-    };
-
-    console.log("Payload being sent:", payload); // Debugging log
-
-    axios
-      .post(import.meta.env.VITE_BACKEND_URL + "/api/orders", payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log("Order Response:", res.data);
-        toast.success("Order placed successfully");
-      })
-      .catch((error) => {
-        console.error("Error placing order:", error);
-        toast.error("Failed to place the order. Please try again.");
-      });
-      
-  }
-  //testing branching
-  
- 
-      
   return (
     <div className="w-full h-full overflow-y-scroll flex flex-col items-end bg-gradient-to-b from-gray-50 to-gray-100 p-8">
       <table className="w-full table-auto border-collapse bg-white shadow-xl rounded-lg overflow-hidden">
@@ -114,9 +85,7 @@ function ShoppingCart() {
                 key={item.productId}
                 productId={item.productId}
                 qty={item.qty}
-                deleteItem={deleteItem}
-                setCartItems={setCartItems}
-                loadCart={loadCart}
+                deleteItem={handleDeleteItem}
               />
             ))
           ) : (
@@ -154,7 +123,6 @@ function ShoppingCart() {
       <div className="mt-8 flex justify-end w-full">
         <button
           onClick={onOrderCheckOut}
-         
           className="px-10 py-4 bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105"
         >
           Checkout

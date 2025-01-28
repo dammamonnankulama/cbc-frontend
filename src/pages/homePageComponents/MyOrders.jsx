@@ -58,6 +58,7 @@ function MyOrders() {
               <th className="p-4 border-b">Name</th>
               <th className="p-4 border-b">Address</th>
               <th className="p-4 border-b">Status</th>
+              <th className="p-4 border-b">Notes</th>
               <th className="p-4 border-b">Total (LKR)</th>
             </tr>
           </thead>
@@ -72,6 +73,7 @@ function MyOrders() {
                 <td className="p-4 border-b">{order.name}</td>
                 <td className="p-4 border-b">{order.address}</td>
                 <td className="p-4 border-b">{order.status}</td>
+                <td className="p-4 border-b">{order.notes}</td>
                 <td className="p-4 border-b">
                   Rs.{order.orderedItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2)}
                 </td>
@@ -97,6 +99,9 @@ function MyOrders() {
             </p>
             <p>
               <strong>Status:</strong> {selectedOrder.status}
+            </p>
+            <p>
+                <strong>Notes:</strong> {selectedOrder.notes || "N/A"}
             </p>
             <p className="mb-4">
               <strong>Total:</strong> Rs.

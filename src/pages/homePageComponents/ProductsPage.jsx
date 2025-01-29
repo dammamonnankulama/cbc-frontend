@@ -6,10 +6,10 @@ import ProductCard from "../../components/productCard";
 function ProductsPage() {
   // 🔹 State to store fetched products
   const [products, setProducts] = useState([]);
-  
+
   // 🔹 Tracks the loading state: "loading", "loaded", or "error"
-  const [loadingStatus, setLoadingStatus] = useState("loading"); 
-  
+  const [loadingStatus, setLoadingStatus] = useState("loading");
+
   // 🔹 Stores the search query input
   const [query, setQuery] = useState("");
 
@@ -20,7 +20,7 @@ function ProductsPage() {
         .get(import.meta.env.VITE_BACKEND_URL + "/api/products")
         .then((res) => {
           console.log(res.data); // ✅ Debugging: Logs fetched data
-          setProducts(res.data); 
+          setProducts(res.data);
           setLoadingStatus("loaded"); // ✅ Update loading state
         })
         .catch((err) => toast.error("Error loading products")); // ❌ Handle errors

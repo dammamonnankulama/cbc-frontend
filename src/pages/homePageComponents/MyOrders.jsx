@@ -2,13 +2,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-function Orders() {
+function MyOrders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [adminEdit, setAdminEdit] = useState(false);
-  const [updatedStatus, setUpdatedStatus] = useState("");
-  const [updatedNotes, setUpdatedNotes] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -38,47 +35,6 @@ function Orders() {
 
   const handleCloseModal = () => {
     setSelectedOrder(null);
-    setAdminEdit(false);
-  };
-
-  const handleEditClick = () => {
-    setAdminEdit(true);
-    setUpdatedStatus(selectedOrder.status);
-    setUpdatedNotes(selectedOrder.notes || "");
-  };
-
-  const handleUpdateOrder = () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      toast.error("Unauthorized. Please log in as an admin.");
-      return;
-    }
-
-    axios
-      .put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/orders/${selectedOrder.orderId}`,
-        {
-          status: updatedStatus,
-          notes: updatedNotes,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((res) => {
-        toast.success("Order updated successfully!");
-        setOrders((prevOrders) =>
-          prevOrders.map((order) =>
-            order.orderId === selectedOrder.orderId ? res.data.order : order
-          )
-        );
-        handleCloseModal();
-      })
-      .catch(() => {
-        toast.error("Failed to update the order. Please try again.");
-      });
   };
 
   if (loading) {
@@ -102,6 +58,7 @@ function Orders() {
               <th className="p-4 border-b">Name</th>
               <th className="p-4 border-b">Address</th>
               <th className="p-4 border-b">Status</th>
+              <th className="p-4 border-b">Notes</th>
               <th className="p-4 border-b">Total (LKR)</th>
             </tr>
           </thead>
@@ -116,6 +73,7 @@ function Orders() {
                 <td className="p-4 border-b">{order.name}</td>
                 <td className="p-4 border-b">{order.address}</td>
                 <td className="p-4 border-b">{order.status}</td>
+                <td className="p-4 border-b">{order.notes}</td>
                 <td className="p-4 border-b">
                   Rs.{order.orderedItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2)}
                 </td>
@@ -125,7 +83,7 @@ function Orders() {
         </table>
       )}
 
-      {/* Order Details Modal */}
+      {/* Modal */}
       {selectedOrder && (
         <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-2xl">
@@ -143,57 +101,26 @@ function Orders() {
               <strong>Status:</strong> {selectedOrder.status}
             </p>
             <p>
-              <strong>Notes:</strong> {selectedOrder.notes || "N/A"}
+                <strong>Notes:</strong> {selectedOrder.notes || "N/A"}
             </p>
-            <h3 className="text-lg font-bold mt-4">Ordered Items</h3>
+            <p className="mb-4">
+              <strong>Total:</strong> Rs.
+              {selectedOrder.orderedItems
+                .reduce((acc, item) => acc + item.price * item.qty, 0)
+                .toFixed(2)}
+            </p>
+            <h3 className="text-lg font-bold mb-2">Ordered Items</h3>
             <ul className="mb-4">
               {selectedOrder.orderedItems.map((item, index) => (
-                <li key={index}>
-                  {item.name} - {item.qty} x Rs.{item.price.toFixed(2)} = Rs.
+                <li key={index} className="mb-2">
+                  <strong>{item.name}</strong> - {item.qty} x Rs.{item.price.toFixed(2)} = Rs.
                   {(item.qty * item.price).toFixed(2)}
                 </li>
               ))}
             </ul>
-
-            {!adminEdit ? (
-              <button
-                onClick={handleEditClick}
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-2"
-              >
-                Edit Order
-              </button>
-            ) : (
-              <div className="flex flex-col gap-4">
-                <select
-                  value={updatedStatus}
-                  onChange={(e) => setUpdatedStatus(e.target.value)}
-                  className="border p-2 rounded"
-                >
-                  <option value="pending">Pending</option>
-                  <option value="preparing">preparing</option>
-                  <option value="completed">Completed</option>
-                  <option value="delivered">Delivered</option>
-                  <option value="paused">Paused</option>
-                  <option value="canceled">Canceled</option>
-                </select>
-                <textarea
-                  value={updatedNotes}
-                  onChange={(e) => setUpdatedNotes(e.target.value)}
-                  className="border p-2 rounded w-full"
-                  placeholder="Add any notes..."
-                />
-                <button
-                  onClick={handleUpdateOrder}
-                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-                >
-                  Save Changes
-                </button>
-              </div>
-            )}
-
             <button
               onClick={handleCloseModal}
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mt-4"
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
             >
               Close
             </button>
@@ -204,4 +131,4 @@ function Orders() {
   );
 }
 
-export default Orders;
+export default MyOrders;

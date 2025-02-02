@@ -1,11 +1,12 @@
 import React from 'react'
 import NavBar from './homePageComponents/NavBar'
 import { Route, Routes } from 'react-router-dom'
-import LoginPage from './LoginPage'
+import LoginPage from './loginPage'
 import ProductInfo from './homePageComponents/ProductInfo'
 import ProductsPage from './homePageComponents/ProductsPage'
 import ShoppingCart from './homePageComponents/ShoppingCart'
 import ShippingPage from './homePageComponents/ShippingPage'
+import MyOrders from './homePageComponents/MyOrders'
 
 function HomePage() {
   return (
@@ -18,6 +19,7 @@ function HomePage() {
           <Route path="/products" element={<ProductsPage/>} />
           <Route path="/cart" element={<ShoppingCart/>} />
           <Route path="/shipping" element={<ShippingPage />} />
+          <Route path="/orders" element={<MyOrders />} />
           
           
           <Route path="/productInfo/:id" element={<ProductInfo />} />

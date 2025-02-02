@@ -4,11 +4,34 @@ import { FaHome, FaGoogle } from "react-icons/fa";
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
+import { useGoogleLogin } from '@react-oauth/google';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  //google login hook
+  const googleLogin =useGoogleLogin({
+    onSuccess:  (res)=>{
+      console.log(res)
+      axios.post(import.meta.env.VITE_BACKEND_URL+"/api/users/google", {
+        token : res.access_token
+      }).then((res) => {
+        if (res.data.message=="User added successfully"){
+          toast.success("Login success.Now you can login with google");
+          
+        }else{
+          localStorage.setItem("token", res.data.token);
+          if (res.data.user.type === "admin") {
+            navigate("/admin");
+          } else {
+            navigate("/products");
+          }
+        }
+      })
+    }
+  });
 
   const navigate = useNavigate();
 
@@ -41,9 +64,7 @@ const LoginPage = () => {
       });
   };
 
-  const handleGoogleLogin = () => {
-    window.location.href = import.meta.env.VITE_BACKEND_URL + "/auth/google";
-  };
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -84,7 +105,7 @@ const LoginPage = () => {
         
         <button 
           type="button" 
-          onClick={handleGoogleLogin} 
+          onClick={googleLogin} 
           className="w-full flex items-center justify-center mt-2 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
         >
           <FaGoogle className="mr-2" /> 

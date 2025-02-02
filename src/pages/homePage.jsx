@@ -1,7 +1,7 @@
 import React from 'react'
 import NavBar from './homePageComponents/NavBar'
 import { Route, Routes } from 'react-router-dom'
-import LoginPage from './LoginPage'
+import LoginPage from './loginPage'
 import ProductInfo from './homePageComponents/ProductInfo'
 import ProductsPage from './homePageComponents/ProductsPage'
 import ShoppingCart from './homePageComponents/ShoppingCart'

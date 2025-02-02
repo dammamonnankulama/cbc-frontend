@@ -11,9 +11,11 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  const navigate = useNavigate();
+
   //google login hook
   const googleLogin =useGoogleLogin({
-    onSuccess:  (res)=>{
+    onSuccess: async (res)=>{
       console.log(res)
       axios.post(import.meta.env.VITE_BACKEND_URL+"/api/users/google", {
         token : res.access_token
@@ -33,7 +35,7 @@ const LoginPage = () => {
     }
   });
 
-  const navigate = useNavigate();
+  
 
   const login = (e) => {
     e.preventDefault();

@@ -1,17 +1,41 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaGoogle } from "react-icons/fa";
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
+import { useGoogleLogin } from '@react-oauth/google';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  // Use the navigate function to redirect to a different page
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  //google login hook
+  const googleLogin =useGoogleLogin({
+    onSuccess: async (res)=>{
+      console.log(res)
+      axios.post(import.meta.env.VITE_BACKEND_URL+"/api/users/google", {
+        token : res.access_token
+      }).then((res) => {
+        if (res.data.message=="User added successfully"){
+          toast.success("Login success.Now you can login with google");
+          
+        }else{
+          localStorage.setItem("token", res.data.token);
+          if (res.data.user.type === "admin") {
+            navigate("/admin");
+          } else {
+            navigate("/products");
+          }
+        }
+      })
+    }
+  });
+
+  
 
   const login = (e) => {
     e.preventDefault();
@@ -20,7 +44,7 @@ const LoginPage = () => {
       toast.error("Please fill in both email and password.");
       return;
     }
-    setError(''); // Clear previous errors
+    setError('');
     console.log("Email:", email);
     axios.post(import.meta.env.VITE_BACKEND_URL+"/api/users/login", { email, password })
       .then((res) => {
@@ -31,12 +55,9 @@ const LoginPage = () => {
         toast.success("Login success");
         localStorage.setItem("token", res.data.token);
         if (res.data.user.type === "admin") {
-          //window.location.href = "/admin";
-          // Use the navigate function to redirect to a different page
-          navigate("/admin")
+          navigate("/admin");
         } else {
-         // window.location.href = "/";
-          navigate("/products")
+          navigate("/products");
         }
       })
       .catch((err) => {
@@ -44,6 +65,8 @@ const LoginPage = () => {
         toast.error(err.response?.data?.message || "An error occurred.");
       });
   };
+
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -79,6 +102,17 @@ const LoginPage = () => {
           Login
         </button>
         {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+        
+        <p className="text-center mt-4 text-gray-700">Or login with</p>
+        
+        <button 
+          type="button" 
+          onClick={googleLogin} 
+          className="w-full flex items-center justify-center mt-2 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+        >
+          <FaGoogle className="mr-2" /> 
+        </button>
+        
         <div className="flex justify-center mt-4">
           <Link to="/" className="text-blue-500 hover:text-blue-700 flex items-center">
             <FaHome className="mr-2" />

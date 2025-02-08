@@ -73,7 +73,7 @@ function NavBar() {
           )}
         </div>
 
-        {/* Cart & User Name */}
+        {/* Cart & User Profile */}
         <div className="flex items-center space-x-3">
           <Link
             to="/cart"
@@ -83,9 +83,12 @@ function NavBar() {
           </Link>
 
           {userName && (
-            <span className="bg-white text-indigo-700 font-semibold text-sm px-3 py-1 rounded-full shadow-md">
+            <Link
+              to="/profile"
+              className="bg-white text-indigo-700 font-semibold text-sm px-3 py-1 rounded-full shadow-md hover:bg-indigo-200 transition-all cursor-pointer"
+            >
               {userName}
-            </span>
+            </Link>
           )}
         </div>
       </nav>

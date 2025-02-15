@@ -76,6 +76,8 @@ function ProductInfo() {
       toast.error("You need to be logged in to submit a review.");
       return;
     }
+    
+    
 
     const payload = {
       productId: product.productId,
@@ -99,7 +101,11 @@ function ProductInfo() {
       })
       .catch((err) => {
         console.error("Error adding review:", err);
-        toast.error("Failed to add review.");
+      if (err.response && err.response.data && err.response.data.message) {
+        toast.error(err.response.data.message); // Display the error message from backend
+      } else {
+        toast.error("Failed to add review. Please try again later.");
+      }
       });
   };
 

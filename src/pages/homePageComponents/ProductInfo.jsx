@@ -108,6 +108,7 @@ function ProductInfo() {
       }
       });
   };
+  
 
   return (
     <div className="w-full h-[calc(100vh-100px)] bg-gradient-to-b from-gray-50 to-gray-200 flex flex-col">

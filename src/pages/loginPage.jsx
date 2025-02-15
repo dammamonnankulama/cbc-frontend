@@ -10,6 +10,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  
 
   const navigate = useNavigate();
 
@@ -25,6 +26,7 @@ const LoginPage = () => {
           
         }else{
           localStorage.setItem("token", res.data.token);
+          localStorage.setItem("user", JSON.stringify(res.data.user));
           if (res.data.user.type === "admin") {
             navigate("/admin");
           } else {
@@ -54,6 +56,7 @@ const LoginPage = () => {
         }
         toast.success("Login success");
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
         if (res.data.user.type === "admin") {
           navigate("/admin");
         } else {

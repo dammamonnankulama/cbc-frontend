@@ -7,6 +7,7 @@ import ProductsPage from './homePageComponents/ProductsPage'
 import ShoppingCart from './homePageComponents/ShoppingCart'
 import ShippingPage from './homePageComponents/ShippingPage'
 import MyOrders from './homePageComponents/MyOrders'
+import UserProfile from './homePageComponents/UserProfile'
 
 function HomePage() {
   return (
@@ -20,6 +21,7 @@ function HomePage() {
           <Route path="/cart" element={<ShoppingCart/>} />
           <Route path="/shipping" element={<ShippingPage />} />
           <Route path="/orders" element={<MyOrders />} />
+          <Route path="/profile" element={<UserProfile />} />
           
           
           <Route path="/productInfo/:id" element={<ProductInfo />} />

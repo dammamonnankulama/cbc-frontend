@@ -71,6 +71,12 @@ function ProductInfo() {
       return;
     }
 
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("You need to be logged in to submit a review.");
+      return;
+    }
+
     const payload = {
       productId: product.productId,
       rating: newReview.rating,
@@ -82,12 +88,12 @@ function ProductInfo() {
     axios
       .post(import.meta.env.VITE_BACKEND_URL + "/api/reviews", payload, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Send JWT token if authenticated
+          Authorization: `Bearer ${token}`, // Send JWT token if authenticated
         },
       })
       .then((res) => {
         toast.success("Review added successfully!");
-        setReviews([...reviews, res.data.review]); // Add the new review to the state
+        setReviews((prevReviews) => [...prevReviews, res.data.review]); // Add the new review to the state
         setIsReviewing(false); // Close the review form
         setNewReview({ rating: 0, comment: "" }); // Reset the form
       })
@@ -98,7 +104,7 @@ function ProductInfo() {
   };
 
   return (
-    <div className="w-full h-[calc(100vh-100px)] bg-gradient-to-b from-gray-50 to-gray-200">
+    <div className="w-full h-[calc(100vh-100px)] bg-gradient-to-b from-gray-50 to-gray-200 flex flex-col">
       {/* Loading State */}
       {status === "loading" && (
         <div className="w-full h-full flex items-center justify-center">
@@ -111,7 +117,7 @@ function ProductInfo() {
 
       {/* Found State */}
       {status === "found" && (
-        <div className="w-full h-full flex items-center justify-center flex-col lg:flex-row gap-8 p-8">
+        <div className="flex flex-col lg:flex-row gap-8 p-8 h-full overflow-hidden">
           {/* Image Section */}
           <div className="w-full lg:w-[30%] h-auto flex justify-center items-center bg-white rounded-lg shadow-md p-4">
             <ImageSlider images={product.productImages} />
@@ -155,7 +161,7 @@ function ProductInfo() {
             </div>
 
             {/* Customer Reviews Section */}
-            <div className="mt-8 p-6 bg-gray-100 rounded-lg shadow-md">
+            <div className="mt-8 p-6 bg-gray-100 rounded-lg shadow-md flex-1 overflow-y-auto max-h-80">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">
                 Customer Reviews
               </h2>
@@ -169,9 +175,12 @@ function ProductInfo() {
               </button>
 
               {reviews.length === 0 ? (
-                <p className="text-gray-600">No reviews yet. Be the first to review!</p>
+                <p className="text-gray-600">
+                  No reviews yet. Be the first to review!
+                </p>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-4 max-h-80 overflow-y-auto">
+                  {/* Display reviews with scroll if they overflow */}
                   {reviews.map((review) => (
                     <div key={review.reviewId} className="bg-white p-4 rounded-lg shadow">
                       <p className="text-lg font-semibold">⭐ {review.rating} / 5</p>
@@ -181,44 +190,57 @@ function ProductInfo() {
                   ))}
                 </div>
               )}
-
-              {/* Review Form */}
-              {isReviewing && (
-                <div className="mt-4 bg-white p-6 rounded-lg shadow-md">
-                  <h3 className="text-xl font-semibold mb-4">Write Your Review</h3>
-
-                  <div>
-                    <label className="block text-sm text-gray-700 mb-2">Rating (1-5)</label>
-                    <input
-                      type="number"
-                      value={newReview.rating}
-                      onChange={(e) => setNewReview({ ...newReview, rating: e.target.value })}
-                      className="w-full p-2 border border-gray-300 rounded-lg mb-4"
-                      min="1"
-                      max="5"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm text-gray-700 mb-2">Comment</label>
-                    <textarea
-                      value={newReview.comment}
-                      onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
-                      className="w-full p-2 border border-gray-300 rounded-lg mb-4"
-                      rows="4"
-                    />
-                  </div>
-
-                  <button
-                    onClick={handleReviewSubmit}
-                    className="px-6 py-3 bg-green-500 text-white font-medium rounded-lg shadow-lg hover:bg-green-600"
-                  >
-                    Submit Review
-                  </button>
-                </div>
-              )}
             </div>
           </div>
+
+          {/* Modal for Adding Review */}
+          {isReviewing && (
+            <div className="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+              <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                <h3 className="text-xl font-semibold mb-4">Write Your Review</h3>
+
+                <div>
+                  <label className="block text-sm text-gray-700 mb-2">Rating (1-5)</label>
+                  <input
+                    type="number"
+                    value={newReview.rating}
+                    onChange={(e) =>
+                      setNewReview({ ...newReview, rating: e.target.value })
+                    }
+                    className="w-full p-2 border border-gray-300 rounded-lg mb-4"
+                    min="1"
+                    max="5"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm text-gray-700 mb-2">Comment</label>
+                  <textarea
+                    value={newReview.comment}
+                    onChange={(e) =>
+                      setNewReview({ ...newReview, comment: e.target.value })
+                    }
+                    className="w-full p-2 border border-gray-300 rounded-lg mb-4"
+                    rows="4"
+                  />
+                </div>
+
+                <button
+                  onClick={handleReviewSubmit}
+                  className="px-6 py-3 bg-green-500 text-white font-medium rounded-lg shadow-lg hover:bg-green-600 w-full"
+                >
+                  Submit Review
+                </button>
+
+                <button
+                  onClick={() => setIsReviewing(false)}
+                  className="mt-4 px-6 py-3 bg-red-500 text-white font-medium rounded-lg shadow-lg hover:bg-red-600 w-full"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

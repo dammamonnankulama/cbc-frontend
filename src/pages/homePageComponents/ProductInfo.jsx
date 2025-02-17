@@ -15,13 +15,19 @@ function ProductInfo() {
   const [reviews, setReviews] = useState([]); // State for storing reviews
   const [newReview, setNewReview] = useState({ rating: 0, comment: "" }); // State for new review
   const [isReviewing, setIsReviewing] = useState(false); // State to toggle review form visibility
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     console.log("Product ID:", productId);
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser && storedUser.type === "admin") {
+      setIsAdmin(true);
+    }
 
     // Fetch product details
     axios
+
       .get(import.meta.env.VITE_BACKEND_URL + "/api/products/" + productId)
       .then((res) => {
         if (res.data == null) {
@@ -76,8 +82,6 @@ function ProductInfo() {
       toast.error("You need to be logged in to submit a review.");
       return;
     }
-    
-    
 
     const payload = {
       productId: product.productId,
@@ -101,14 +105,36 @@ function ProductInfo() {
       })
       .catch((err) => {
         console.error("Error adding review:", err);
-      if (err.response && err.response.data && err.response.data.message) {
-        toast.error(err.response.data.message); // Display the error message from backend
-      } else {
-        toast.error("Failed to add review. Please try again later.");
-      }
+        if (err.response && err.response.data && err.response.data.message) {
+          toast.error(err.response.data.message); // Display the error message from backend
+        } else {
+          toast.error("Failed to add review. Please try again later.");
+        }
       });
   };
-  
+  const handleDeleteReview = (reviewId) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("You need to be logged in as an admin.");
+      return;
+    }
+
+    axios
+      .delete(
+        import.meta.env.VITE_BACKEND_URL + `/api/reviews/delete/${reviewId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then(() => {
+        toast.success("Review deleted successfully");
+        setReviews(reviews.filter((review) => review.reviewId !== reviewId));
+      })
+      .catch((err) => {
+        console.error("Error deleting review:", err);
+        toast.error("Failed to delete review");
+      });
+  };
 
   return (
     <div className="w-full h-[calc(100vh-100px)] bg-gradient-to-b from-gray-50 to-gray-200 flex flex-col">
@@ -168,7 +194,7 @@ function ProductInfo() {
             </div>
 
             {/* Customer Reviews Section */}
-            <div className="mt-8 p-6 bg-gray-100 rounded-lg shadow-md flex-1 overflow-y-auto max-h-80">
+            <div className="mt-8 p-6 bg-gray-100 rounded-lg shadow-md flex-1 overflow-y-auto max-h-[calc(50vh)] lg:max-h-[calc(80vh)]">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">
                 Customer Reviews
               </h2>
@@ -186,13 +212,26 @@ function ProductInfo() {
                   No reviews yet. Be the first to review!
                 </p>
               ) : (
-                <div className="space-y-4 max-h-80 overflow-y-auto">
+                <div className="space-y-4 overflow-y-auto">
                   {/* Display reviews with scroll if they overflow */}
                   {reviews.map((review) => (
-                    <div key={review.reviewId} className="bg-white p-4 rounded-lg shadow">
-                      <p className="text-lg font-semibold">⭐ {review.rating} / 5</p>
+                    <div
+                      key={review.reviewId}
+                      className="bg-white p-4 rounded-lg shadow"
+                    >
+                      <p className="text-lg font-semibold">
+                        ⭐ {review.rating} / 5
+                      </p>
                       <p className="text-gray-700">{review.comment}</p>
                       <p className="text-sm text-gray-500">- {review.email}</p>
+                      {isAdmin && (
+                        <button
+                          onClick={() => handleDeleteReview(review.reviewId)}
+                          className="text-red-500 text-sm hover:text-red-700 focus:outline-none"
+                        >
+                          Delete Review
+                        </button>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -204,10 +243,14 @@ function ProductInfo() {
           {isReviewing && (
             <div className="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
               <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-                <h3 className="text-xl font-semibold mb-4">Write Your Review</h3>
+                <h3 className="text-xl font-semibold mb-4">
+                  Write Your Review
+                </h3>
 
                 <div>
-                  <label className="block text-sm text-gray-700 mb-2">Rating (1-5)</label>
+                  <label className="block text-sm text-gray-700 mb-2">
+                    Rating (1-5)
+                  </label>
                   <input
                     type="number"
                     value={newReview.rating}
@@ -221,7 +264,9 @@ function ProductInfo() {
                 </div>
 
                 <div>
-                  <label className="block text-sm text-gray-700 mb-2">Comment</label>
+                  <label className="block text-sm text-gray-700 mb-2">
+                    Comment
+                  </label>
                   <textarea
                     value={newReview.comment}
                     onChange={(e) =>

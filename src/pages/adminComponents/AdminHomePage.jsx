@@ -16,6 +16,7 @@ import ManageAdmins from "./ManageAdmins";
 import EditProductForm from "./EditProductForm";
 import axios from "axios";
 import toast from "react-hot-toast";
+import CreateAdmin from "./CreateAdmin";
 
 function AdminHomePage() {
   const [user, setUser] = useState(null);
@@ -124,6 +125,8 @@ function AdminHomePage() {
           <Route path="orders" element={<Orders />} />
           <Route path="customers" element={<Customers />} />
           <Route path="admins" element={<ManageAdmins />} />
+          <Route path="admins/createAdmin" element={<CreateAdmin />} />
+          
 
           {/* Default Route (Redirects to Dashboard) */}
           <Route path="*" element={<Dashboard />} />

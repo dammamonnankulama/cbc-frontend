@@ -57,7 +57,7 @@ export default function ManageAdmins() {
           </tbody>
         </table>
 
-        <Link to="" className="fixed bottom-8 right-8 bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-all">
+        <Link to="createAdmin" className="fixed bottom-8 right-8 bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-all">
           <FaPlus className="text-2xl" />
         </Link>
       </div>

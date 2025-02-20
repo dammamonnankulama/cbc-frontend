@@ -10,6 +10,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 
 
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -18,6 +19,11 @@ function App() {
       <Routes >  
         {/* Root route with nested routes */}
         <Route path="/*" element={<HomePage />} />
+        
+
+        
+        
+
         
         {/* Other Main Routes  */}
         <Route path="/login" element={<LoginPage />} />
@@ -35,3 +41,4 @@ function App() {
 }
 
 export default App;
+//https://cbc-backend-gzve.onrender.com

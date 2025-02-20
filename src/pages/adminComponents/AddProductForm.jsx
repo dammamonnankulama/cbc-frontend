@@ -15,6 +15,7 @@ export default function AddProductForm() {
   const [stock, setStock] = useState("");
   const [description, setDescription] = useState("");
   const [lowStockAlert, setLowStockAlert] = useState("");
+  const [category, setCategory] = useState("");
   const navigate = useNavigate();
 
   async function handleSubmit() {
@@ -39,15 +40,20 @@ export default function AddProductForm() {
       stock: stock,
       description: description,
       lowStockAlert: lowStockAlert,
+      category: category,
     };
 
     const token = localStorage.getItem("token");
     try {
-      await axios.post(import.meta.env.VITE_BACKEND_URL+"/api/products", product, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
+      await axios.post(
+        import.meta.env.VITE_BACKEND_URL + "/api/products",
+        product,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
       navigate("/admin/products");
       toast.success("Product added successfully");
     } catch (err) {
@@ -63,7 +69,9 @@ export default function AddProductForm() {
         </h1>
         <div className="space-y-4">
           <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Product ID<span className="text-red-500">*</span></label>
+            <label className="text-gray-700 font-medium">
+              Product ID<span className="text-red-500">*</span>
+            </label>
             <input
               type="text"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
@@ -75,7 +83,9 @@ export default function AddProductForm() {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Product Name<span className="text-red-500">*</span></label>
+            <label className="text-gray-700 font-medium">
+              Product Name<span className="text-red-500">*</span>
+            </label>
             <input
               type="text"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
@@ -112,7 +122,9 @@ export default function AddProductForm() {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Price<span className="text-red-500">*</span></label>
+            <label className="text-gray-700 font-medium">
+              Price<span className="text-red-500">*</span>
+            </label>
             <input
               type="number"
               required
@@ -124,7 +136,9 @@ export default function AddProductForm() {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Last Price<span className="text-red-500">*</span></label>
+            <label className="text-gray-700 font-medium">
+              Last Price<span className="text-red-500">*</span>
+            </label>
             <input
               type="number"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
@@ -133,6 +147,24 @@ export default function AddProductForm() {
               value={lastPrice}
               onChange={(e) => setLastPrice(e.target.value)}
             />
+          </div>
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium">
+              Category<span className="text-red-500">*</span>
+            </label>
+            <select
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
+              required
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="" disabled>
+                Select a category
+              </option>
+              <option value="makeup">Makeup</option>
+              <option value="hair-body">Hair & Body</option>
+              <option value="skin-care">Skin Care</option>
+            </select>
           </div>
 
           <div className="flex flex-col">
@@ -156,7 +188,9 @@ export default function AddProductForm() {
             />
           </div>
           <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Low Stock Alert<span className="text-red-500">*</span></label>
+            <label className="text-gray-700 font-medium">
+              Low Stock Alert<span className="text-red-500">*</span>
+            </label>
             <input
               type="number"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"

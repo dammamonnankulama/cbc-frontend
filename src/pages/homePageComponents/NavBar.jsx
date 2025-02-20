@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { FaReact, FaShoppingCart, FaUser } from 'react-icons/fa';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { FaShoppingCart, FaUser } from "react-icons/fa";
 
 function NavBar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -10,7 +10,7 @@ function NavBar() {
     const user = localStorage.getItem("user");
     if (user) {
       const userData = JSON.parse(user);
-      setUserName(userData.firstName || userData.name); 
+      setUserName(userData.firstName || userData.name);
     }
   }, []);
 
@@ -19,34 +19,44 @@ function NavBar() {
   };
 
   return (
-    <header className="bg-indigo-700 text-white p-4 md:p-6 flex flex-col md:flex-row justify-between items-center shadow-lg">
+    <header className="bg-white text-black p-4 md:p-6 flex flex-wrap justify-between items-center shadow-lg w-full">
       {/* Logo Section */}
-      <div className="flex items-center space-x-3 mb-4 md:mb-0">
-        <FaReact className="text-4xl animate-spin-slow" />
-        <span className="text-2xl font-semibold tracking-wide">BeautyCare</span>
-      </div>
-
-      {/* Navigation Links */}
-      <nav className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-5 items-center">
-        <Link
-          to="/"
-          className="flex items-center bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-all shadow-md"
-        >
-          Home
+      <div className="flex items-center w-full md:w-auto justify-between mb-4 md:mb-0 space-x-6">
+        <Link to="/">
+          <img
+            src="https://dteetoxzwiwrovoohdpd.supabase.co/storage/v1/object/public/cbc_images//Logo.png"
+            alt="Logo"
+            className="h-12 w-auto"
+          />
         </Link>
         <Link
           to="/products"
-          className="flex items-center bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition-all shadow-md"
+          className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
         >
-          Products
+          Shop All
         </Link>
         <Link
-          to="/get-app"
-          className="flex items-center bg-purple-500 text-white py-2 px-4 rounded-lg hover:bg-purple-600 transition-all shadow-md"
+          to="/category/makeup"
+          className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
         >
-          Get App
+          Makeup
         </Link>
+        <Link
+          to="/category/hair-body"
+          className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
+        >
+          Hair & Body
+        </Link>
+        <Link
+          to="/category/skin-care"
+          className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
+        >
+          Skin Care
+        </Link>
+      </div>
 
+      {/* Navigation Links */}
+      <nav className="flex flex-wrap md:flex-row space-y-3 md:space-y-0 md:space-x-5 items-center w-full md:w-auto justify-center md:justify-end">
         {/* User Dropdown */}
         <div className="relative">
           <button
@@ -56,7 +66,7 @@ function NavBar() {
             <FaUser className="mr-2" />
           </button>
           {isDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border">
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
               <Link
                 to="/login"
                 className="block px-4 py-2 text-gray-800 hover:bg-indigo-100 rounded-t-lg transition"

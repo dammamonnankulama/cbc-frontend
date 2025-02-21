@@ -153,7 +153,11 @@ function ProductInfo() {
         <div className="flex flex-col lg:flex-row gap-8 p-8 h-full overflow-hidden">
           {/* Image Section */}
           <div className="w-full lg:w-[30%] h-auto flex justify-center items-center bg-white rounded-lg shadow-md p-4">
-            <ImageSlider images={product.productImages} />
+            
+            <ImageSlider
+              images={product.productImages}
+              className="w-full h-full object-cover rounded-lg"
+            />
           </div>
 
           {/* Product Details Section */}

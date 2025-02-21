@@ -27,6 +27,7 @@ export default function EditProductForm() {
   const [imageFiles, setImageFiles] = useState([]);
 
   const [price, setPrice] = useState(product.price);
+  const [category, setCategory] = useState(product.category);
   const [lastPrice, setLastPrice] = useState(product.lastPrice);
   const [stock, setStock] = useState(product.stock);
   const [description, setDescription] = useState(product.description);
@@ -57,6 +58,7 @@ export default function EditProductForm() {
       altNames: altNames,
       productImages: imageUrls,
       price: price,
+      category: category,
       lastPrice: lastPrice,
       stock: stock,
       description: description,
@@ -168,6 +170,24 @@ export default function EditProductForm() {
               value={lastPrice}
               onChange={(e) => setLastPrice(e.target.value)}
             />
+          </div>
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium">
+              Category<span className="text-red-500">*</span>
+            </label>
+            <select
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
+              required
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="" disabled>
+                Select a category
+              </option>
+              <option value="makeup">Makeup</option>
+              <option value="hair-body">Hair & Body</option>
+              <option value="skin-care">Skin Care</option>
+            </select>
           </div>
 
           <div className="flex flex-col">

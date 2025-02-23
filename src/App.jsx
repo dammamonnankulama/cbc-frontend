@@ -14,7 +14,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 function App() {
   return (
     <BrowserRouter>
-      <Toaster position='top-right'/>
+      <Toaster position='top-center'/>
       <GoogleOAuthProvider clientId="454806191657-i9tsf4tfh0gd0fg8hf3n2ko3785km5e4.apps.googleusercontent.com">
       <Routes >  
         {/* Root route with nested routes */}

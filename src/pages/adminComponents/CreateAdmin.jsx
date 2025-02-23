@@ -25,17 +25,17 @@ export default function CreateAdmin() {
       setError("Passwords do not match");
       return;
     }
-
-    const token = localStorage.getItem("token"); // Get JWT from localStorage
+  
+    const token = localStorage.getItem("token");
     if (!token) {
       setError("Unauthorized: No token provided");
       return;
     }
-
+  
     try {
-      const response = await axios.post(
+      const response = await axios.post(import.meta.env.VITE_BACKEND_URL+
         "/api/users", // Adjust API endpoint as needed
-        { ...formData, type: "admin" },
+        { ...formData, type: "admin", confirmPassword: undefined }, // Don't send confirmPassword
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setSuccess(response.data.message);

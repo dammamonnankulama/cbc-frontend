@@ -1,40 +1,29 @@
 import React from 'react'
 import NavBar from './homePageComponents/NavBar'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Link } from 'react-router-dom'
 
-import ProductInfo from './homePageComponents/ProductInfo'
-import ProductsPage from './homePageComponents/ProductsPage'
-import ShoppingCart from './homePageComponents/ShoppingCart'
-import ShippingPage from './homePageComponents/ShippingPage'
-import MyOrders from './homePageComponents/MyOrders'
-import UserProfile from './homePageComponents/UserProfile'
-import CategoryPage from './homePageComponents/CategoryPage'
+
 
 function HomePage() {
   return (
     <div className='h-screen w-full'>
-      <NavBar />
-      <div className='w-full h-[calc(100vh-100px)] '>
-      <Routes path="/*">
-          <Route path="/" element={<h1>Home Page</h1>} />
-          
-          <Route path="/products" element={<ProductsPage/>} />
-          <Route path="/cart" element={<ShoppingCart/>} />
-          <Route path="/shipping" element={<ShippingPage />} />
-          <Route path="/orders" element={<MyOrders />} />
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/productInfo/:id" element={<ProductInfo />} />
-          <Route path="/category/:category" element={<CategoryPage />} />
-          
+      
+      <div className='w-full  relative'>
+        <Link to="/products">
+          <img 
+            src="https://dteetoxzwiwrovoohdpd.supabase.co/storage/v1/object/public/cbc_images//Colorful%20Minimalist%20Beauty%20Care%20Email%20Header.png" 
+            alt="Featured Product" 
+            className='w-full h-full object-cover rounded-lg shadow-lg'
+          />
+        </Link>
+      </div>
+      <div className='w-full h-[calc(100vh-100px-25vh)] p-4 bg-gray-50'>
+        <Routes>
+          <Route path="/" element={<h1 className='text-center text-3xl font-bold text-gray-800'>Welcome to Our Store</h1>} />
           
         </Routes> 
-
       </div>
-
-      
     </div>
-  
-    
   )
 }
 

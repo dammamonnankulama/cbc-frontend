@@ -7,11 +7,27 @@ function NavBar() {
   const [userName, setUserName] = useState(null);
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      const userData = JSON.parse(user);
-      setUserName(userData.firstName || userData.name);
-    }
+    // Function to update the user name from localStorage
+    const updateUser = () => {
+      const user = localStorage.getItem("user");
+      if (user) {
+        const userData = JSON.parse(user);
+        setUserName(userData.firstName || userData.name);
+      } else {
+        setUserName(null);
+      }
+    };
+
+    // Check localStorage on initial load
+    updateUser();
+
+    // Listen for changes in localStorage
+    window.addEventListener("storage", updateUser);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("storage", updateUser);
+    };
   }, []);
 
   const toggleDropdown = () => {

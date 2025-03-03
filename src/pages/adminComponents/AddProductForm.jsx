@@ -41,12 +41,13 @@ export default function AddProductForm() {
       description: description,
       lowStockAlert: lowStockAlert,
       category: category,
+      
     };
 
     const token = localStorage.getItem("token");
     try {
       await axios.post(
-        import.meta.env.VITE_BACKEND_URL + "/api/products",
+        import.meta.env.VITE_BACKEND_URL + "/api/products/",
         product,
         {
           headers: {

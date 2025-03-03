@@ -109,7 +109,7 @@ function HomePage() {
           <div className="flex justify-center mt-6">
             <button
               onClick={() => setVisibleProducts(visibleProducts + 4)}
-              className="bg-blue-500 text-white px-5 py-2 rounded-lg text-lg font-semibold hover:bg-blue-600 transition"
+              className="bg-black text-white px-5 py-2 rounded-lg text-lg font-semibold hover:bg-blue-600 transition"
             >
               View More
             </button>

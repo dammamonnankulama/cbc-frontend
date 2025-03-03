@@ -12,14 +12,16 @@ function ProductInfo() {
 
   const [product, setProduct] = useState(null);
   const [status, setStatus] = useState("loading");
-  const [reviews, setReviews] = useState([]); // State for storing reviews
-  const [newReview, setNewReview] = useState({ rating: 0, comment: "" }); // State for new review
-  const [isReviewing, setIsReviewing] = useState(false); // State to toggle review form visibility
+  const [reviews, setReviews] = useState([]);
+  const [newReview, setNewReview] = useState({ rating: 0, comment: "" });
+  const [isReviewing, setIsReviewing] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [youMayLike, setYouMayLike] = useState([]); // State for related products
+  const [category, setCategory] = useState(""); // State to store the product's category
+  const [showMore, setShowMore] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("Product ID:", productId);
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser && storedUser.type === "admin") {
       setIsAdmin(true);
@@ -27,13 +29,13 @@ function ProductInfo() {
 
     // Fetch product details
     axios
-
       .get(import.meta.env.VITE_BACKEND_URL + "/api/products/" + productId)
       .then((res) => {
         if (res.data == null) {
           setStatus("not-found");
         } else {
           setProduct(res.data);
+          setCategory(res.data.category); // Set the category from the fetched product
           setStatus("found");
         }
       })
@@ -41,21 +43,39 @@ function ProductInfo() {
         console.error("Error fetching product:", err);
       });
 
-    // Fetch customer reviews for this product
+    // Fetch reviews for this product
     axios
       .get(import.meta.env.VITE_BACKEND_URL + `/api/reviews/${productId}`)
       .then((res) => {
         if (Array.isArray(res.data)) {
-          setReviews(res.data); // Only set the state if it's an array
+          setReviews(res.data);
         } else {
-          setReviews([]); // Clear reviews if the response is not an array
+          setReviews([]);
         }
       })
       .catch((err) => {
         console.error("Error fetching reviews:", err);
-        setReviews([]); // Optional: Clear reviews if there's an error
+        setReviews([]);
       });
-  }, [productId]);
+
+    // Fetch related products in the same category
+    if (category) {
+      axios
+        .get(
+          `${
+            import.meta.env.VITE_BACKEND_URL
+          }/api/products/category/${category}`
+        )
+        .then((res) => {
+          if (res.data) {
+            setYouMayLike(res.data.slice(0, 3)); // Show only 3 related products
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetching related products:", err);
+        });
+    }
+  }, [productId, category]);
 
   function onAddToCartClick() {
     addToCart(product.productId, 1);
@@ -70,7 +90,6 @@ function ProductInfo() {
     });
   }
 
-  // Handle review form submission
   const handleReviewSubmit = () => {
     if (!newReview.rating || !newReview.comment) {
       toast.error("Rating and Comment are required!");
@@ -89,29 +108,28 @@ function ProductInfo() {
       comment: newReview.comment,
     };
 
-    console.log("Sending payload:", payload); // Log the payload
-
     axios
       .post(import.meta.env.VITE_BACKEND_URL + "/api/reviews", payload, {
         headers: {
-          Authorization: `Bearer ${token}`, // Send JWT token if authenticated
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
         toast.success("Review added successfully!");
-        setReviews((prevReviews) => [...prevReviews, res.data.review]); // Add the new review to the state
-        setIsReviewing(false); // Close the review form
-        setNewReview({ rating: 0, comment: "" }); // Reset the form
+        setReviews((prevReviews) => [...prevReviews, res.data.review]);
+        setIsReviewing(false);
+        setNewReview({ rating: 0, comment: "" });
       })
       .catch((err) => {
         console.error("Error adding review:", err);
         if (err.response && err.response.data && err.response.data.message) {
-          toast.error(err.response.data.message); // Display the error message from backend
+          toast.error(err.response.data.message);
         } else {
           toast.error("Failed to add review. Please try again later.");
         }
       });
   };
+
   const handleDeleteReview = (reviewId) => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -137,7 +155,7 @@ function ProductInfo() {
   };
 
   return (
-    <div className="w-full h-[calc(100vh-100px)] bg-gradient-to-b from-gray-50 to-gray-200 flex flex-col">
+    <div className="w-full bg-gradient-to-b from-gray-50 to-gray-200 flex flex-col">
       {/* Loading State */}
       {status === "loading" && (
         <div className="w-full h-full flex items-center justify-center">
@@ -150,13 +168,12 @@ function ProductInfo() {
 
       {/* Found State */}
       {status === "found" && (
-        <div className="flex flex-col lg:flex-row gap-8 p-8 h-full overflow-hidden">
+        <div className="flex flex-col lg:flex-row gap-8 p-8">
           {/* Image Section */}
           <div className="w-full lg:w-[30%] h-auto flex justify-center items-center bg-white rounded-lg shadow-md p-4">
-            
             <ImageSlider
               images={product.productImages}
-              className="w-full h-full object-cover rounded-lg"
+              className="w-full h-full object-cover rounded-lg mt-6"
             />
           </div>
 
@@ -203,7 +220,6 @@ function ProductInfo() {
                 Customer Reviews
               </h2>
 
-              {/* Add Review Button */}
               <button
                 onClick={() => setIsReviewing(true)}
                 className="px-6 py-3 bg-blue-500 text-white font-medium rounded-lg shadow-lg hover:bg-blue-600 mb-4"
@@ -217,86 +233,91 @@ function ProductInfo() {
                 </p>
               ) : (
                 <div className="space-y-4 overflow-y-auto">
-                  {/* Display reviews with scroll if they overflow */}
-                  {reviews.map((review) => (
-                    <div
-                      key={review.reviewId}
-                      className="bg-white p-4 rounded-lg shadow"
+                  {/* Show only first 2 reviews initially */}
+                  {reviews
+                    .slice(0, showMore ? reviews.length : 2)
+                    .map((review) => (
+                      <div
+                        key={review.reviewId}
+                        className="bg-white p-4 rounded-lg shadow"
+                      >
+                        <p className="text-lg font-semibold">
+                          ⭐ {review.rating} / 5
+                        </p>
+                        <p className="text-gray-700">{review.comment}</p>
+                        <p className="text-sm text-gray-500">
+                          - {review.email}
+                        </p>
+                        {isAdmin && (
+                          <button
+                            onClick={() => handleDeleteReview(review.reviewId)}
+                            className="text-red-500 text-sm hover:text-red-700 focus:outline-none"
+                          >
+                            Delete Review
+                          </button>
+                        )}
+                      </div>
+                    ))}
+
+                  {/* Show "See More" if there are more than 2 reviews */}
+                  {reviews.length > 2 && !showMore && (
+                    <button
+                      onClick={() => setShowMore(true)}
+                      className="text-blue-500 text-sm mt-4"
                     >
-                      <p className="text-lg font-semibold">
-                        ⭐ {review.rating} / 5
-                      </p>
-                      <p className="text-gray-700">{review.comment}</p>
-                      <p className="text-sm text-gray-500">- {review.email}</p>
-                      {isAdmin && (
-                        <button
-                          onClick={() => handleDeleteReview(review.reviewId)}
-                          className="text-red-500 text-sm hover:text-red-700 focus:outline-none"
-                        >
-                          Delete Review
-                        </button>
-                      )}
-                    </div>
-                  ))}
+                      See More
+                    </button>
+                  )}
+
+                  {/* Hide "See More" button after it's clicked */}
+                  {showMore && reviews.length > 2 && (
+                    <button
+                      onClick={() => setShowMore(false)}
+                      className="text-blue-500 text-sm mt-4"
+                    >
+                      See Less
+                    </button>
+                  )}
                 </div>
               )}
             </div>
           </div>
+        </div>
+      )}
 
-          {/* Modal for Adding Review */}
-          {isReviewing && (
-            <div className="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-              <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-                <h3 className="text-xl font-semibold mb-4">
-                  Write Your Review
+      {/* You May Like Section (Updated) */}
+      {youMayLike.length > 0 && (
+        <div className="mt-8 p-6 bg-gray-100 rounded-lg shadow-md">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            You May Like
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {youMayLike.map((relatedProduct) => (
+              <div
+                key={relatedProduct.productId}
+                className="bg-white p-2 rounded-lg shadow-lg flex flex-col items-center"
+              >
+                <div
+                  onClick={() =>
+                    navigate(`/productInfo/${relatedProduct.productId}`)
+                  }
+                  className="cursor-pointer"
+                >
+                  <img
+                    src={relatedProduct.productImages[0]}
+                    alt={relatedProduct.productName}
+                    className="w-32 h-32 object-cover rounded-lg"
+                  />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-800 mt-2 text-center">
+                  {relatedProduct.productName}
                 </h3>
-
-                <div>
-                  <label className="block text-sm text-gray-700 mb-2">
-                    Rating (1-5)
-                  </label>
-                  <input
-                    type="number"
-                    value={newReview.rating}
-                    onChange={(e) =>
-                      setNewReview({ ...newReview, rating: e.target.value })
-                    }
-                    className="w-full p-2 border border-gray-300 rounded-lg mb-4"
-                    min="1"
-                    max="5"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm text-gray-700 mb-2">
-                    Comment
-                  </label>
-                  <textarea
-                    value={newReview.comment}
-                    onChange={(e) =>
-                      setNewReview({ ...newReview, comment: e.target.value })
-                    }
-                    className="w-full p-2 border border-gray-300 rounded-lg mb-4"
-                    rows="4"
-                  />
-                </div>
-
-                <button
-                  onClick={handleReviewSubmit}
-                  className="px-6 py-3 bg-green-500 text-white font-medium rounded-lg shadow-lg hover:bg-green-600 w-full"
-                >
-                  Submit Review
-                </button>
-
-                <button
-                  onClick={() => setIsReviewing(false)}
-                  className="mt-4 px-6 py-3 bg-red-500 text-white font-medium rounded-lg shadow-lg hover:bg-red-600 w-full"
-                >
-                  Cancel
-                </button>
+                <p className="text-md text-primary mt-1 text-center">
+                  LKR {relatedProduct.lastPrice.toFixed(2)}
+                </p>
               </div>
-            </div>
-          )}
+            ))}
+          </div>
         </div>
       )}
     </div>

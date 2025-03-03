@@ -215,43 +215,113 @@ function ProductInfo() {
             </div>
 
             {/* Customer Reviews Section */}
-            <div className="mt-8 p-6 bg-gray-100 rounded-lg shadow-md flex-1 overflow-y-auto max-h-[calc(50vh)] lg:max-h-[calc(80vh)]">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            <div className="mt-8 p-6 bg-gray-50 rounded-lg shadow-md flex-1 overflow-y-auto max-h-[calc(50vh)] lg:max-h-[calc(80vh)]">
+              <h2 className="text-2xl font-bold text-gray-800 mb-6">
                 Customer Reviews
               </h2>
 
+              {/* Review Button */}
               <button
                 onClick={() => setIsReviewing(true)}
-                className="px-6 py-3 bg-blue-500 text-white font-medium rounded-lg shadow-lg hover:bg-blue-600 mb-4"
+                className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow-lg hover:bg-blue-700 mb-6 transition duration-300 ease-in-out transform hover:scale-105"
               >
                 Add Your Review
               </button>
 
+              {/* Review Form */}
+              {isReviewing && (
+                <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+                  <h3 className="text-xl font-semibold mb-4 text-gray-800">
+                    Write a Review
+                  </h3>
+                  <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                    {/* Rating */}
+                    <div className="flex items-center gap-2 sm:w-1/3">
+                      <label className="text-lg font-medium text-gray-700">
+                        Rating:{" "}
+                      </label>
+                      <select
+                        className="border p-3 rounded-lg w-full"
+                        value={newReview.rating}
+                        onChange={(e) =>
+                          setNewReview({
+                            ...newReview,
+                            rating: Number(e.target.value),
+                          })
+                        }
+                      >
+                        <option value="0">Select Rating</option>
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <option key={star} value={star}>
+                            {star} Star{star > 1 && "s"}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Comment */}
+                    <div className="flex-1 sm:w-2/3">
+                      <label className="text-lg font-medium text-gray-700">
+                        Comment:{" "}
+                      </label>
+                      <textarea
+                        className="w-full p-3 border rounded-lg"
+                        rows="4"
+                        value={newReview.comment}
+                        onChange={(e) =>
+                          setNewReview({
+                            ...newReview,
+                            comment: e.target.value,
+                          })
+                        }
+                        placeholder="Write your thoughts about the product..."
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex gap-6">
+                    <button
+                      onClick={handleReviewSubmit}
+                      className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105"
+                    >
+                      Submit Review
+                    </button>
+                    <button
+                      onClick={() => setIsReviewing(false)}
+                      className="px-6 py-3 bg-gray-400 text-white font-medium rounded-lg shadow-lg hover:bg-gray-500 transition duration-300 ease-in-out transform hover:scale-105"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Review Display */}
               {reviews.length === 0 ? (
-                <p className="text-gray-600">
+                <p className="text-gray-600 text-lg">
                   No reviews yet. Be the first to review!
                 </p>
               ) : (
-                <div className="space-y-4 overflow-y-auto">
+                <div className="space-y-6 overflow-y-auto">
                   {/* Show only first 2 reviews initially */}
                   {reviews
                     .slice(0, showMore ? reviews.length : 2)
                     .map((review) => (
                       <div
                         key={review.reviewId}
-                        className="bg-white p-4 rounded-lg shadow"
+                        className="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 ease-in-out"
                       >
-                        <p className="text-lg font-semibold">
+                        <p className="text-lg font-semibold text-yellow-500">
                           ⭐ {review.rating} / 5
                         </p>
-                        <p className="text-gray-700">{review.comment}</p>
+                        <p className="text-gray-700 mb-4">{review.comment}</p>
                         <p className="text-sm text-gray-500">
                           - {review.email}
                         </p>
                         {isAdmin && (
                           <button
                             onClick={() => handleDeleteReview(review.reviewId)}
-                            className="text-red-500 text-sm hover:text-red-700 focus:outline-none"
+                            className="text-red-500 text-sm hover:text-red-700 focus:outline-none mt-2"
                           >
                             Delete Review
                           </button>

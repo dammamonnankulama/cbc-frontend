@@ -16,7 +16,12 @@ import ProductInfo from "./pages/homePageComponents/ProductInfo";
 import CategoryPage from "./pages/homePageComponents/CategoryPage";
 import NavBar from "./pages/homePageComponents/NavBar";
 import Footer from "./pages/homePageComponents/Footer";
-
+import AboutUs from "./pages/homePageComponents/AboutUs";
+import ContactUs from "./pages/homePageComponents/ContactUs";
+import FAQ from "./pages/homePageComponents/FAQ";
+import Terms from "./pages/homePageComponents/Terms";
+import PrivacyPolicy from "./pages/homePageComponents/PrivacyPolicy";
+import ShippingPolicy from "./pages/homePageComponents/ShippingPolicy";
 
 function App() {
   return (
@@ -52,6 +57,13 @@ function MainLayout() {
         <Route path="/orders" element={<MyOrders />} />
         <Route path="/productInfo/:id" element={<ProductInfo />} />
         <Route path="/category/:category" element={<CategoryPage />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/FAQ" element={<FAQ/>} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/shipping-policy" element={<ShippingPolicy />} />
+
         
 
 

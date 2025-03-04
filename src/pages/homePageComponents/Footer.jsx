@@ -28,7 +28,7 @@ function Footer() {
           <h3 className="text-xl font-semibold mb-4 text-gray-200">Store Policies</h3>
           <ul>
             <li className="mb-2">
-              <a href="/terms-of-service" className="text-gray-400 hover:text-white transition duration-300">Terms of Service</a>
+              <a href="/terms" className="text-gray-400 hover:text-white transition duration-300">Terms of Service</a>
             </li>
             <li className="mb-2">
               <a href="/privacy-policy" className="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a>

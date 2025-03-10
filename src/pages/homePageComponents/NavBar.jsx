@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FaShoppingCart, FaUser } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 function NavBar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // for toggling mobile menu
   const [userName, setUserName] = useState(null);
 
   useEffect(() => {
@@ -19,6 +22,10 @@ function NavBar() {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <header className="bg-white text-black p-4 md:p-6 flex flex-wrap justify-between items-center shadow-lg w-full">
       {/* Logo Section */}
@@ -30,6 +37,18 @@ function NavBar() {
             className="h-12 w-auto"
           />
         </Link>
+
+        {/* Mobile Menu Toggle */}
+        <button
+          onClick={toggleMenu}
+          className="md:hidden text-black text-2xl"
+        >
+          {isMenuOpen ? "X" : "☰"}
+        </button>
+      </div>
+
+      {/* Desktop Categories */}
+      <div className="hidden md:flex md:space-x-6">
         <Link
           to="/products"
           className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
@@ -56,6 +75,36 @@ function NavBar() {
         </Link>
       </div>
 
+      {/* Mobile Navigation Menu */}
+      {isMenuOpen && (
+        <div className="flex flex-col md:hidden w-full items-center space-y-4 mt-4">
+          <Link
+            to="/products"
+            className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
+          >
+            Shop All
+          </Link>
+          <Link
+            to="/category/makeup"
+            className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
+          >
+            Makeup
+          </Link>
+          <Link
+            to="/category/hair-body"
+            className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
+          >
+            Hair & Body
+          </Link>
+          <Link
+            to="/category/skin-care"
+            className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
+          >
+            Skin Care
+          </Link>
+        </div>
+      )}
+
       {/* Navigation Links */}
       <nav className="flex flex-wrap md:flex-row space-y-3 md:space-y-0 md:space-x-5 items-center w-full md:w-auto justify-center md:justify-end">
         {/* User Dropdown */}
@@ -64,7 +113,7 @@ function NavBar() {
             onClick={toggleDropdown}
             className="flex items-center bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 transition-all shadow-md"
           >
-            <FaUser className="mr-2" />
+            <FontAwesomeIcon icon={faUserCircle} className="mr-2" />
           </button>
           {isDropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">

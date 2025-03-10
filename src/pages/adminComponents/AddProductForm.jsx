@@ -14,6 +14,7 @@ export default function AddProductForm() {
   const [lastPrice, setLastPrice] = useState("");
   const [stock, setStock] = useState("");
   const [description, setDescription] = useState("");
+  const [discount, setDiscount] = useState("");
   const [lowStockAlert, setLowStockAlert] = useState("");
   const [category, setCategory] = useState("");
   const navigate = useNavigate();
@@ -39,9 +40,9 @@ export default function AddProductForm() {
       lastPrice: lastPrice,
       stock: stock,
       description: description,
+      discount: discount,
       lowStockAlert: lowStockAlert,
       category: category,
-      
     };
 
     const token = localStorage.getItem("token");
@@ -149,6 +150,22 @@ export default function AddProductForm() {
               onChange={(e) => setLastPrice(e.target.value)}
             />
           </div>
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium">
+              Discount (%)<span className="text-red-500">*</span>
+            </label>
+            <input
+              type="number"
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
+              placeholder="Enter Discount Percentage"
+              value={discount}
+              onChange={(e) => setDiscount(e.target.value)}
+              min="0"
+              max="100"
+            />
+          </div>
+
           <div className="flex flex-col">
             <label className="text-gray-700 font-medium">
               Category<span className="text-red-500">*</span>

@@ -61,18 +61,37 @@ function NavBar() {
         >
           Makeup
         </Link>
-        <Link
-          to="/category/hair-body"
-          className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
-        >
-          Hair & Body
-        </Link>
+       
         <Link
           to="/category/skin-care"
           className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
         >
           Skin Care
         </Link>
+        <Link
+            to="/category/hair"
+            className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
+          >
+            Hair
+          </Link>
+        <Link
+            to="/category/perfume"
+            className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
+          >
+            Perfume
+          </Link>
+          <Link
+            to="/category/nails"
+            className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
+          >
+            Nails
+          </Link>
+          <Link
+            to="/category/tools"
+            className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
+          >
+            Tools
+          </Link>
       </div>
 
       {/* Mobile Navigation Menu */}
@@ -94,7 +113,7 @@ function NavBar() {
             to="/category/hair-body"
             className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
           >
-            Hair & Body
+            Hair 
           </Link>
           <Link
             to="/category/skin-care"
@@ -102,21 +121,45 @@ function NavBar() {
           >
             Skin Care
           </Link>
+          <Link
+            to="/category/perfume"
+            className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
+          >
+            Perfume
+          </Link>
+          <Link
+            to="/category/hair"
+            className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
+          >
+            Hair
+          </Link>
+          <Link
+            to="/category/nails"
+            className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
+          >
+            Nails
+          </Link>
+          <Link
+            to="/category/tools"
+            className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
+          >
+            Tools
+          </Link>
         </div>
       )}
 
       {/* Navigation Links */}
-      <nav className="flex flex-wrap md:flex-row space-y-3 md:space-y-0 md:space-x-5 items-center w-full md:w-auto justify-center md:justify-end">
+      <nav className="flex flex-wrap md:flex-row space-y-0 md:space-y-1 md:space-x-3 items-center w-full md:w-auto justify-center md:justify-end">
         {/* User Dropdown */}
         <div className="relative">
           <button
             onClick={toggleDropdown}
             className="flex items-center bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 transition-all shadow-md"
           >
-            <FontAwesomeIcon icon={faUserCircle} className="mr-2" />
+            <FontAwesomeIcon icon={faUserCircle} className="mr-1" />
           </button>
           {isDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
+            <div className="absolute right-1 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
               <Link
                 to="/login"
                 className="block px-4 py-2 text-gray-800 hover:bg-indigo-100 rounded-t-lg transition"
@@ -134,18 +177,20 @@ function NavBar() {
         </div>
 
         {/* Cart & User Profile */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-10 md:space-x-6">
+          {/* Cart Icon */}
           <Link
             to="/cart"
             className="flex items-center bg-pink-500 text-white py-2 px-4 rounded-lg hover:bg-pink-600 transition-all shadow-md"
           >
-            <FaShoppingCart className="mr-2" />
+            <FaShoppingCart className="mr-1" />
           </Link>
 
+          {/* User Profile */}
           {userName && (
             <Link
               to="/profile"
-              className="bg-white text-indigo-700 font-semibold text-sm px-3 py-1 rounded-full shadow-md hover:bg-indigo-200 transition-all cursor-pointer"
+              className="bg-white text-indigo-700 font-semibold text-sm px-6 py-2 rounded-full shadow-md hover:bg-indigo-200 transition-all cursor-pointer"
             >
               {userName}
             </Link>

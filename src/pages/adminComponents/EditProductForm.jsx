@@ -182,8 +182,12 @@ export default function EditProductForm() {
                 Select a category
               </option>
               <option value="makeup">Makeup</option>
-              <option value="hair-body">Hair & Body</option>
+              <option value="hair">Hair </option>
               <option value="skin-care">Skin Care</option>
+              <option value="body">Body </option>
+              <option value="nails">Nails</option>
+              <option value="tools">Tools</option>
+              <option value="perfume">Perfume</option>
             </select>
           </div>
 

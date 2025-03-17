@@ -56,7 +56,7 @@ function CategoryPage() {
               className="border p-4 rounded-lg shadow-md bg-white cursor-pointer hover:shadow-xl transition transform hover:-translate-y-1"
               onClick={() => navigate(`/productInfo/${product.productId}`)}
             >
-              <div className="w-full h-52 flex justify-center items-center bg-gray-100 rounded-lg overflow-hidden">
+              <div className="w-full h-55 flex justify-center items-center bg-gray-100 rounded-lg overflow-hidden">
                 <img
                   src={product.productImages?.[0] || "fallback-image.jpg"}
                   alt={product.productName}

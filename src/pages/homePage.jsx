@@ -12,11 +12,19 @@ import Footer from "./homePageComponents/Footer";
 
 const images = [
   {
-    src: "https://dteetoxzwiwrovoohdpd.supabase.co/storage/v1/object/public/cbc_images//home%206.png",
+    src: "https://dteetoxzwiwrovoohdpd.supabase.co/storage/v1/object/public/cbc_images//home003.webp",
     link: "/products",
   },
   {
-    src: "https://dteetoxzwiwrovoohdpd.supabase.co/storage/v1/object/public/cbc_images/pixelcut-export.jpg",
+    src: "https://dteetoxzwiwrovoohdpd.supabase.co/storage/v1/object/public/cbc_images//home005.jpg",
+    link: "/products",
+  },
+  {
+    src: "https://dteetoxzwiwrovoohdpd.supabase.co/storage/v1/object/public/cbc_images//home%20page%20001.avif",
+    link: "/products",
+  },
+  {
+    src: "https://dteetoxzwiwrovoohdpd.supabase.co/storage/v1/object/public/cbc_images//home%20002.jpg",
     link: "/products",
   },
 ];
@@ -26,9 +34,7 @@ function HomePage() {
   const [newArrivals, setNewArrivals] = useState([]);
   const [visibleProducts, setVisibleProducts] = useState(4); // Initially show 4 products
   const [loadingNewArrivals, setLoadingNewArrivals] = useState(true); // Loading state for new arrivals
-  const [loadingTrendingProducts, setLoadingTrendingProducts] = useState(true); // Loading state for trending products
-  const [trendingProducts, setTrendingProducts] = useState([]);
-  const [visibleTrendingProducts, setVisibleTrendingProducts] = useState(4);
+
   const [discountProducts, setDiscountProducts] = useState([]);
   const [loadingDiscounts, setLoadingDiscounts] = useState(true);
 
@@ -80,7 +86,7 @@ function HomePage() {
   return (
     <div className="h-screen w-full relative">
       {/* Image Slider */}
-      <div className="relative w-full h-[550px] overflow-hidden">
+      <div className="relative w-full min-h-[300px] md:min-h-[650px] overflow-hidden">
         <div className="relative w-full h-full">
           <Link to={images[currentIndex].link}>
             <img
@@ -91,7 +97,7 @@ function HomePage() {
           </Link>
           <Link
             to={images[currentIndex].link}
-            className="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-md hover:bg-blue-600 transition"
+            className="absolute bottom-4 md:bottom-6 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg text-base md:text-lg font-semibold shadow-md hover:bg-blue-600 transition"
           >
             Shop Now
           </Link>
@@ -99,7 +105,7 @@ function HomePage() {
       </div>
 
       {/* New Arrivals Section */}
-      <div className="w-full py-10 bg-white">
+      <div className="w-full py-10 bg-yellow-50">
         <h2 className="text-3xl font-serif font-bold text-center text-gray-800 mb-6">
           New Arrivals
         </h2>
@@ -148,7 +154,7 @@ function HomePage() {
         )}
       </div>
       {/* Special Offers Section */}
-      <div className="w-full py-10 bg-gray-50">
+      <div className="w-full py-10 bg-yellow-50">
         <h2 className="text-3xl font-serif font-bold text-center text-gray-800 mb-6">
           Special Offers
         </h2>
@@ -204,7 +210,6 @@ function HomePage() {
         </h2>
 
         <div className="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5 px-7">
-
           {[
             {
               name: "Nails",

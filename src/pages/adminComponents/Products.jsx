@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
@@ -10,7 +10,7 @@ function Products() {
 
   // Fetch products from the server
   useEffect(() => {
-    axios.get(import.meta.env.VITE_BACKEND_URL+'/api/products')
+    axios.get(import.meta.env.VITE_BACKEND_URL + '/api/products')
       .then((res) => {
         setProducts(res.data);
       })
@@ -24,7 +24,7 @@ function Products() {
 
   const handleDelete = (productId) => {
     const token = localStorage.getItem("token");
-    axios.delete(import.meta.env.VITE_BACKEND_URL+`/api/products/${productId}`, {
+    axios.delete(import.meta.env.VITE_BACKEND_URL + `/api/products/${productId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -48,41 +48,35 @@ function Products() {
         <div className="overflow-x-auto shadow-md rounded-lg">
           <table className="min-w-full bg-white rounded-lg">
             <thead>
-              <tr className="bg-blue-600 text-white text-sm">
-                <th className="py-3 px-6">Product ID</th>
-                <th className="py-3 px-6">Product Name</th>
-                <th className="py-3 px-6">Price</th>
-                <th className="py-3 px-6">Last Price</th>
-                <th className="py-3 px-6">Stock</th>
-                <th className="py-3 px-6">Low Stock Alert</th>
-                <th className="py-3 px-6">Description</th>
-                <th className="py-3 px-6 text-center">Action</th>
+              <tr className="bg-blue-600 text-white text-xs sm:text-sm">
+                <th className="py-3 px-4 sm:px-6">Product ID</th>
+                <th className="py-3 px-4 sm:px-6">Product Name</th>
+                <th className="py-3 px-4 sm:px-6">Price</th>
+                <th className="py-3 px-4 sm:px-6">Last Price</th>
+                <th className="py-3 px-4 sm:px-6">Stock</th>
+                <th className="py-3 px-4 sm:px-6">Low Stock Alert</th>
+                <th className="py-3 px-4 sm:px-6">Description</th>
+                <th className="py-3 px-4 sm:px-6 text-center">Action</th>
               </tr>
             </thead>
             <tbody>
               {products.map((product, index) => (
                 <tr key={product.productId} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
-                  <td className="py-3 px-6 text-gray-800">{product.productId}</td>
-                  <td className="py-3 px-6 text-gray-800">{product.productName}</td>
-                  <td className="py-3 px-6 text-gray-800">LKR.{product.price}</td>
-                  <td className="py-3 px-6 text-gray-800">LKR.{product.lastPrice}</td>
-                  <td className="py-3 px-6 text-gray-800">{product.stock}</td>
-                  <td className={`py-3 px-6 ${product.stock <= product.lowStockAlert ? 'text-red-500' : 'text-gray-800'}`}>
+                  <td className="py-3 px-4 sm:px-6 text-gray-800">{product.productId}</td>
+                  <td className="py-3 px-4 sm:px-6 text-gray-800">{product.productName}</td>
+                  <td className="py-3 px-4 sm:px-6 text-gray-800">LKR.{product.price}</td>
+                  <td className="py-3 px-4 sm:px-6 text-gray-800">LKR.{product.lastPrice}</td>
+                  <td className="py-3 px-4 sm:px-6 text-gray-800">{product.stock}</td>
+                  <td className={`py-3 px-4 sm:px-6 ${product.stock <= product.lowStockAlert ? 'text-red-500' : 'text-gray-800'}`}>
                     {product.lowStockAlert}
                   </td>
-                  <td className="py-3 px-6 text-gray-600">{product.description}</td>
-                  <td className="py-3 px-6 text-center">
+                  <td className="py-3 px-4 sm:px-6 text-gray-600">{product.description}</td>
+                  <td className="py-3 px-4 sm:px-6 text-center">
                     <div className="flex justify-center items-center space-x-4">
-                      <button onClick={
-                        () =>{
-                          // Navigate to edit product page
-                          navigate(`/admin/products/editProducts`, {state: {product: product}});
-                        }
-                         }
-                          className="text-blue-500 hover:text-blue-700" title='Edit'>
+                      <button onClick={() => navigate(`/admin/products/editProducts`, { state: { product: product } })} className="text-blue-500 hover:text-blue-700" title="Edit">
                         <FaEdit className="text-xl" />
                       </button>
-                      <button onClick={() => handleDelete(product.productId)} className="text-red-500 hover:text-red-700" title='Delete'>
+                      <button onClick={() => handleDelete(product.productId)} className="text-red-500 hover:text-red-700" title="Delete">
                         <FaTrash className="text-xl" />
                       </button>
                     </div>

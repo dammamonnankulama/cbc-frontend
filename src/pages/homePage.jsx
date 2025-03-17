@@ -12,20 +12,26 @@ import Footer from "./homePageComponents/Footer";
 
 const images = [
   {
-    src: "https://dteetoxzwiwrovoohdpd.supabase.co/storage/v1/object/public/cbc_images//home003.webp",
+    src: "https://dteetoxzwiwrovoohdpd.supabase.co/storage/v1/object/public/cbc_images//home%200010.jpg",
     link: "/products",
+    title: "Exclusive Discounts Available!",
+    buttonText: "View product",
+    buttonLink: "/productInfo/CBC0022",
+  },
+
+  {
+    src: "https://dteetoxzwiwrovoohdpd.supabase.co/storage/v1/object/public/cbc_images//home0011.jpg",
+    link: "/products",
+    title: "Visit Our Store for More!",
+    buttonText: "Visit Store",
+    buttonLink: "/products",
   },
   {
-    src: "https://dteetoxzwiwrovoohdpd.supabase.co/storage/v1/object/public/cbc_images//home005.jpg",
+    src: "https://dteetoxzwiwrovoohdpd.supabase.co/storage/v1/object/public/cbc_images//home0012.jpg",
     link: "/products",
-  },
-  {
-    src: "https://dteetoxzwiwrovoohdpd.supabase.co/storage/v1/object/public/cbc_images//home%20page%20001.avif",
-    link: "/products",
-  },
-  {
-    src: "https://dteetoxzwiwrovoohdpd.supabase.co/storage/v1/object/public/cbc_images//home%20002.jpg",
-    link: "/products",
+    title: "Explore the Best Nail Products!",
+    buttonText: "Shop Now",
+    buttonLink: "/category/nails",
   },
 ];
 
@@ -85,24 +91,47 @@ function HomePage() {
 
   return (
     <div className="h-screen w-full relative">
-      {/* Image Slider */}
-      <div className="relative w-full min-h-[300px] md:min-h-[650px] overflow-hidden">
-        <div className="relative w-full h-full">
-          <Link to={images[currentIndex].link}>
-            <img
-              src={images[currentIndex].src}
-              alt="Featured Product"
-              className="w-full h-full object-cover rounded-lg shadow-lg transition-opacity duration-700 ease-in-out"
-            />
-          </Link>
-          <Link
-            to={images[currentIndex].link}
-            className="absolute bottom-4 md:bottom-6 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg text-base md:text-lg font-semibold shadow-md hover:bg-blue-600 transition"
-          >
-            Shop Now
-          </Link>
-        </div>
-      </div>
+    {/* Image Slider */}
+<div className="relative w-full min-h-[150px] md:min-h-[700px] lg:min-h-[680px] max-h-[600px] overflow-hidden">
+  <div className="relative w-full h-full">
+    <Link to={images[currentIndex].link}>
+      <img
+        src={images[currentIndex].src}
+        alt="Featured Product"
+        className="w-full h-full object-cover rounded-lg shadow-lg transition-opacity duration-700 ease-in-out"
+      />
+    </Link>
+
+    {/* Dynamic Text and Button */}
+    <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-center text-white">
+      <h2 className="text-xl md:text-3xl font-bold drop-shadow-lg">
+        {images[currentIndex].title}
+      </h2>
+      <Link
+        to={images[currentIndex].buttonLink}
+        className="mt-3 inline-block bg-blue-500 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm md:text-lg font-semibold shadow-md hover:bg-blue-600 transition"
+      >
+        {images[currentIndex].buttonText}
+      </Link>
+    </div>
+  </div>
+</div>
+
+{/* Running Text */}
+<div className="bg-white text-black py-1 mt-1">
+  <div className="overflow-hidden whitespace-nowrap">
+    <p className="inline-block animate-marquee text-lg font-semibold">
+      <span className="mr-8">Fast delivery     </span> 
+      <span className="mr-8">|    Quality products</span> 
+      <span className="mr-8">|    Great customer service</span> 
+      <span className="mr-8">|    Best prices in town</span> 
+      <span className="mr-8">|    Shop now for exclusive deals!</span>
+    </p>
+  </div>
+</div>
+
+
+
 
       {/* New Arrivals Section */}
       <div className="w-full py-10 bg-yellow-50">
@@ -120,11 +149,11 @@ function HomePage() {
                 to={`/productInfo/${product.productId}`}
                 className="block bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition"
               >
-                <div className="relative w-full h-64">
+                <div className="relative w-full h-65 sm:h-48 md:h-56 lg:h-64">
                   <img
                     src={product.productImages?.[0]}
                     alt={`Image of ${product.productName || "Product"}`}
-                    className="w-full h-full object-cover rounded-lg"
+                    className="w-full h-full object-cover sm:object-contain rounded-lg"
                     onError={(e) => (e.target.src = "fallback-image.jpg")}
                   />
                 </div>
@@ -153,6 +182,7 @@ function HomePage() {
           </div>
         )}
       </div>
+
       {/* Special Offers Section */}
       <div className="w-full py-10 bg-yellow-50">
         <h2 className="text-3xl font-serif font-bold text-center text-gray-800 mb-6">
@@ -171,11 +201,11 @@ function HomePage() {
                 to={`/productInfo/${product.productId}`}
                 className="block bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition"
               >
-                <div className="relative w-full h-64">
+                <div className="relative w-full h-65 sm:h-48 md:h-56 lg:h-64">
                   <img
                     src={product.productImages?.[0]}
                     alt={`Image of ${product.productName || "Product"}`}
-                    className="w-full h-full object-cover rounded-lg"
+                    className="w-full h-full object-cover sm:object-contain rounded-lg"
                     onError={(e) => (e.target.src = "fallback-image.jpg")}
                   />
                   {/* Discount Badge */}
@@ -203,6 +233,7 @@ function HomePage() {
           )}
         </div>
       </div>
+
       {/* Category Navigation Section */}
       <div className="w-full py-10 bg-gray-1000">
         <h2 className="text-3xl font-serif font-bold text-center text-gray-800 mb-6">

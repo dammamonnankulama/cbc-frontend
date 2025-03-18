@@ -190,30 +190,13 @@ function NavBar() {
             />
           </Link>
 
-          {/* User Profile */}
-          {userName ? (
+           {/* User Profile */}
+           {userName && (
             <Link
               to="/profile"
-              className="flex items-center bg-white text-indigo-700 font-semibold text-sm px-6 py-2 rounded-full shadow-md hover:bg-indigo-200 transition-all cursor-pointer"
+              className="bg-white text-indigo-700 font-semibold text-sm px-6 py-2 rounded-full shadow-md hover:bg-indigo-200 transition-all cursor-pointer"
             >
-              <img
-                src="https://dteetoxzwiwrovoohdpd.supabase.co/storage/v1/object/public/cbc_images//login%20(1).png"
-                alt="User Profile"
-                className="w-6 h-6 mr-2"
-              />
               {userName}
-            </Link>
-          ) : (
-            <Link
-              to="/login"
-              className="flex items-center bg-white text-indigo-700 font-semibold text-sm px-6 py-2 rounded-full shadow-md hover:bg-indigo-200 transition-all cursor-pointer"
-            >
-              <img
-                src="https://dteetoxzwiwrovoohdpd.supabase.co/storage/v1/object/public/cbc_images//login.png"
-                alt="Login"
-                className="w-6 h-6 mr-2"
-              />
-              Login
             </Link>
           )}
         </div>

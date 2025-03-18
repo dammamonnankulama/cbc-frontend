@@ -297,7 +297,60 @@ function HomePage() {
           ))}
         </div>
       </div>
+      {/* Beauty Tips Section */}
+      <div className="w-full py-10 bg-yellow-50">
+        <h2 className="text-3xl font-serif font-bold text-center text-gray-800 mb-6">
+          Beauty Tips
+        </h2>
 
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6 px-4">
+          {/* Skin Care Tips */}
+          <Link
+            to="/beauty-tips"
+            className="bg-gray-50 rounded-lg shadow-md overflow-hidden"
+          >
+            <img
+              src="https://dteetoxzwiwrovoohdpd.supabase.co/storage/v1/object/public/cbc_images//beautyTips001.jpg" // Replace with your image URL
+              alt="Skin Care Tips"
+              className="w-full h-96 object-cover"
+              onError={(e) => (e.target.src = "fallback-image.jpg")} // Fallback image in case of errors
+            />
+            <div className="p-6">
+              <h3 className="text-xl font-semibold text-center text-gray-800 mb-3">
+                Skin Care Tips
+              </h3>
+              <p className="text-gray-600">
+                Discover the best skin care tips for a glowing and healthy
+                complexion. Learn how to properly moisturize and protect your
+                skin every day.
+              </p>
+            </div>
+          </Link>
+
+          {/* Hair Care Tips */}
+          <Link
+            to="/beauty-tips"
+            className="bg-gray-50 rounded-lg shadow-md overflow-hidden"
+          >
+            <img
+              src="https://dteetoxzwiwrovoohdpd.supabase.co/storage/v1/object/public/cbc_images//beautyTips002.jpg" // Replace with your image URL
+              alt="Hair Care Tips"
+              className="w-full h-96 object-cover"
+              onError={(e) => (e.target.src = "fallback-image.jpg")} // Fallback image in case of errors
+            />
+            <div className="p-6">
+              <h3 className="text-xl font-semibold text-center text-gray-800 mb-3">
+                Hair Care Tips
+              </h3>
+              <p className="text-gray-600">
+                Get the best tips for hair care, from nourishing your scalp to
+                finding the perfect products for every hair type. Achieve shiny,
+                healthy hair effortlessly.
+              </p>
+            </div>
+          </Link>
+        </div>
+      </div>
       {/* Features Section */}
       <div className="w-full py-16 bg-gray-50">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">

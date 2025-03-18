@@ -22,6 +22,7 @@ import FAQ from "./pages/homePageComponents/FAQ";
 import Terms from "./pages/homePageComponents/Terms";
 import PrivacyPolicy from "./pages/homePageComponents/PrivacyPolicy";
 import ShippingPolicy from "./pages/homePageComponents/ShippingPolicy";
+import BeautyTips from "./pages/homePageComponents/BeautyTips";
 
 function App() {
   return (
@@ -63,6 +64,8 @@ function MainLayout() {
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/shipping-policy" element={<ShippingPolicy />} />
+        <Route path="/beauty-tips" element={<BeautyTips />} />
+
 
         
 

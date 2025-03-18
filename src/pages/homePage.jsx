@@ -91,47 +91,44 @@ function HomePage() {
 
   return (
     <div className="h-screen w-full relative">
-    {/* Image Slider */}
-<div className="relative w-full min-h-[150px] md:min-h-[700px] lg:min-h-[680px] max-h-[600px] overflow-hidden">
-  <div className="relative w-full h-full">
-    <Link to={images[currentIndex].link}>
-      <img
-        src={images[currentIndex].src}
-        alt="Featured Product"
-        className="w-full h-full object-cover rounded-lg shadow-lg transition-opacity duration-700 ease-in-out"
-      />
-    </Link>
+      {/* Image Slider */}
+      <div className="relative w-full min-h-[150px] md:min-h-[700px] lg:min-h-[680px] max-h-[600px] overflow-hidden">
+        <div className="relative w-full h-full">
+          <Link to={images[currentIndex].link}>
+            <img
+              src={images[currentIndex].src}
+              alt="Featured Product"
+              className="w-full h-full object-cover rounded-lg shadow-lg transition-opacity duration-700 ease-in-out"
+            />
+          </Link>
 
-    {/* Dynamic Text and Button */}
-    <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-center text-white">
-      <h2 className="text-xl md:text-3xl font-bold drop-shadow-lg">
-        {images[currentIndex].title}
-      </h2>
-      <Link
-        to={images[currentIndex].buttonLink}
-        className="mt-3 inline-block bg-blue-500 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm md:text-lg font-semibold shadow-md hover:bg-blue-600 transition"
-      >
-        {images[currentIndex].buttonText}
-      </Link>
-    </div>
-  </div>
-</div>
+          {/* Dynamic Text and Button */}
+          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-center text-white">
+            <h2 className="text-xl md:text-3xl font-bold drop-shadow-lg">
+              {images[currentIndex].title}
+            </h2>
+            <Link
+              to={images[currentIndex].buttonLink}
+              className="mt-3 inline-block bg-blue-500 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm md:text-lg font-semibold shadow-md hover:bg-blue-600 transition"
+            >
+              {images[currentIndex].buttonText}
+            </Link>
+          </div>
+        </div>
+      </div>
 
-{/* Running Text */}
-<div className="bg-white text-black py-1 mt-1">
-  <div className="overflow-hidden whitespace-nowrap">
-    <p className="inline-block animate-marquee text-lg font-semibold">
-      <span className="mr-8">Fast delivery     </span> 
-      <span className="mr-8">|    Quality products</span> 
-      <span className="mr-8">|    Great customer service</span> 
-      <span className="mr-8">|    Best prices in town</span> 
-      <span className="mr-8">|    Shop now for exclusive deals!</span>
-    </p>
-  </div>
-</div>
-
-
-
+      {/* Running Text */}
+      <div className="bg-white text-black py-1 mt-1">
+        <div className="overflow-hidden whitespace-nowrap">
+          <p className="inline-block animate-marquee text-lg font-semibold">
+            <span className="mr-8">Fast delivery </span>
+            <span className="mr-8">| Quality products</span>
+            <span className="mr-8">| Great customer service</span>
+            <span className="mr-8">| Best prices in town</span>
+            <span className="mr-8">| Shop now for exclusive deals!</span>
+          </p>
+        </div>
+      </div>
 
       {/* New Arrivals Section */}
       <div className="w-full py-10 bg-yellow-50">

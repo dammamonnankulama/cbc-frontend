@@ -6,7 +6,6 @@ import {
   FaShoppingCart,
   FaUsers,
   FaHome,
-  FaBars,
 } from "react-icons/fa";
 import Dashboard from "./Dashboard";
 import Products from "./Products";
@@ -22,7 +21,6 @@ import CreateAdmin from "./CreateAdmin";
 function AdminHomePage() {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true); // ✅ Track loading state
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for mobile sidebar toggle
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -73,11 +71,7 @@ function AdminHomePage() {
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* 🔹 Sidebar Navigation */}
-      <aside
-        className={`${
-          isSidebarOpen ? "w-64" : "w-0"
-        } bg-blue-800 text-white flex flex-col fixed h-full transition-all sm:w-64 md:w-48 sm:w-32 sm:relative sm:top-0 sm:left-0 sm:h-auto sm:min-h-0 sm:rounded-none sm:bg-transparent sm:shadow-none`}
-      >
+      <aside className="w-64 bg-blue-800 text-white flex flex-col fixed h-full lg:w-64 md:w-48 sm:w-32 sm:relative sm:top-0 sm:left-0 sm:h-auto sm:min-h-0 sm:rounded-none sm:bg-transparent sm:shadow-none">
         <div className="p-4 text-center font-bold text-xl">Admin Panel</div>
         <nav className="flex flex-col p-4 space-y-2">
           <Link
@@ -120,22 +114,8 @@ function AdminHomePage() {
         </nav>
       </aside>
 
-      {/* 🔹 Mobile Toggle Button */}
-      <div className="sm:hidden absolute top-4 left-4">
-        <button
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="text-white bg-blue-600 p-2 rounded-full"
-        >
-          <FaBars />
-        </button>
-      </div>
-
       {/* 🔹 Main Content Area */}
-      <div
-        className={`flex-1 p-8 transition-all ${
-          isSidebarOpen ? "ml-64" : "ml-0"
-        } sm:ml-0 sm:mt-16 sm:p-4`}
-      >
+      <div className="flex-1 p-8 ml-64 sm:ml-0 sm:mt-16 sm:p-4">
         <Routes>
           {/* Specific Routes */}
           <Route path="dashboard" element={<Dashboard />} />

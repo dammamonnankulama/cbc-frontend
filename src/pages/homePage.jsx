@@ -92,7 +92,7 @@ function HomePage() {
   return (
     <div className="h-screen w-full relative">
       {/* Image Slider */}
-      <div className="relative w-full min-h-[150px] md:min-h-[700px] lg:min-h-[680px] max-h-[600px] overflow-hidden">
+      <div className="relative w-full min-h-[150px] md:min-h-[700px] lg:min-h-[850px] max-h-[600px] overflow-hidden">
         <div className="relative w-full h-full">
           <Link to={images[currentIndex].link}>
             <img

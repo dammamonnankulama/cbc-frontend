@@ -22,15 +22,15 @@ export default function ManageAdmins() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-bold mb-6 text-center">Admins List</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Admins List</h2>
 
         {errorMessage && <p className="text-red-500 text-sm text-center mb-4">{errorMessage}</p>}
 
-        <table className="w-full border-collapse border border-gray-300">
+        <table className="w-full border-collapse border border-gray-300 shadow-sm rounded-md overflow-hidden">
           <thead>
-            <tr>
+            <tr className="bg-gray-200">
               <th className="border border-gray-300 p-2">Profile Pic</th>
               <th className="border border-gray-300 p-2">First Name</th>
               <th className="border border-gray-300 p-2">Last Name</th>
@@ -40,7 +40,7 @@ export default function ManageAdmins() {
           <tbody>
             {admins.length > 0 ? (
               admins.map((admin) => (
-                <tr key={admin._id} className="text-center">
+                <tr key={admin._id} className="text-center hover:bg-gray-50 transition-all ease-in-out duration-300">
                   <td className="border border-gray-300 p-2">
                     <img src={admin.profilePicture || "/default-profile.png"} alt={`${admin.firstName}'s profile`} className="w-10 h-10 rounded-full mx-auto object-cover" />
                   </td>

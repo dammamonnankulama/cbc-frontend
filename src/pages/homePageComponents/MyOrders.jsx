@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { FaSpinner } from "react-icons/fa";
 
 function MyOrders() {
   const [orders, setOrders] = useState([]);
@@ -40,20 +41,20 @@ function MyOrders() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-full">
-        <p>Loading orders...</p>
+        <FaSpinner className="animate-spin text-3xl text-blue-500" />
       </div>
     );
   }
 
   return (
     <div className="w-full h-full overflow-y-auto flex flex-col bg-gradient-to-b from-gray-50 to-gray-100 p-8">
-      <h1 className="text-2xl font-bold mb-4">My Orders</h1>
+      <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">My Orders</h1>
       {orders.length === 0 ? (
-        <p>No orders found.</p>
+        <p className="text-center text-gray-500">No orders found.</p>
       ) : (
-        <table className="w-full text-left border-collapse bg-white shadow-lg">
+        <table className="w-full text-left border-collapse bg-white shadow-lg rounded-lg">
           <thead>
-            <tr className="bg-gray-200">
+            <tr className="bg-blue-500 text-white">
               <th className="p-4 border-b">Order ID</th>
               <th className="p-4 border-b">Name</th>
               <th className="p-4 border-b">Address</th>
@@ -66,7 +67,7 @@ function MyOrders() {
             {orders.map((order) => (
               <tr
                 key={order.orderId}
-                className="hover:bg-gray-100 cursor-pointer"
+                className="hover:bg-blue-50 cursor-pointer transition-all duration-300"
                 onClick={() => handleRowClick(order)}
               >
                 <td className="p-4 border-b">{order.orderId}</td>
@@ -85,42 +86,26 @@ function MyOrders() {
 
       {/* Modal */}
       {selectedOrder && (
-        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-2xl">
-            <h2 className="text-xl font-bold mb-4">Order Details</h2>
-            <p>
-              <strong>Order ID:</strong> {selectedOrder.orderId}
-            </p>
-            <p>
-              <strong>Name:</strong> {selectedOrder.name}
-            </p>
-            <p>
-              <strong>Address:</strong> {selectedOrder.address}
-            </p>
-            <p>
-              <strong>Status:</strong> {selectedOrder.status}
-            </p>
-            <p>
-                <strong>Notes:</strong> {selectedOrder.notes || "N/A"}
-            </p>
-            <p className="mb-4">
-              <strong>Total:</strong> Rs.
-              {selectedOrder.orderedItems
-                .reduce((acc, item) => acc + item.price * item.qty, 0)
-                .toFixed(2)}
-            </p>
-            <h3 className="text-lg font-bold mb-2">Ordered Items</h3>
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50 transition-all duration-300">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-2xl transform transition-all duration-300">
+            <h2 className="text-2xl font-semibold mb-4 text-gray-800">Order Details</h2>
+            <p><strong>Order ID:</strong> {selectedOrder.orderId}</p>
+            <p><strong>Name:</strong> {selectedOrder.name}</p>
+            <p><strong>Address:</strong> {selectedOrder.address}</p>
+            <p><strong>Status:</strong> {selectedOrder.status}</p>
+            <p><strong>Notes:</strong> {selectedOrder.notes || "N/A"}</p>
+            <p className="mb-4"><strong>Total:</strong> Rs.{selectedOrder.orderedItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2)}</p>
+            <h3 className="text-xl font-semibold mb-2">Ordered Items</h3>
             <ul className="mb-4">
               {selectedOrder.orderedItems.map((item, index) => (
                 <li key={index} className="mb-2">
-                  <strong>{item.name}</strong> - {item.qty} x Rs.{item.price.toFixed(2)} = Rs.
-                  {(item.qty * item.price).toFixed(2)}
+                  <strong>{item.name}</strong> - {item.qty} x Rs.{item.price.toFixed(2)} = Rs.{(item.qty * item.price).toFixed(2)}
                 </li>
               ))}
             </ul>
             <button
               onClick={handleCloseModal}
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+              className="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition-all duration-300"
             >
               Close
             </button>

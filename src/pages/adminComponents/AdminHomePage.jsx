@@ -60,6 +60,7 @@ function AdminHomePage() {
     return null;
   }
 
+  
   return (
     <div className="min-h-screen bg-purple-500 text-white">
       <header className=" bg-purple-500 p-4 flex justify-between items-center md:hidden shadow-lg">

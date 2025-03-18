@@ -2,7 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-function ShoppingCartCard({ productId, qty, deleteItem, setCartItems, loadCart }) {
+function ShoppingCartCard({
+  productId,
+  qty,
+  deleteItem,
+  setCartItems,
+  loadCart,
+}) {
   const [product, setProduct] = useState(null);
   const [loaded, setLoaded] = useState(false);
 
@@ -41,16 +47,20 @@ function ShoppingCartCard({ productId, qty, deleteItem, setCartItems, loadCart }
         />
       </td>
       <td className="py-4 px-4 text-center">{product?.productName}</td>
-      <td className="py-4 px-4 text-center">{productId}</td>
-      <td className="py-4 px-4 text-center">{qty}</td>
-      <td className="py-4 px-4 text-center">LKR. {product?.lastPrice?.toFixed(2)}</td>
-      <td className="py-4 px-4 text-center">
+      <td className="py-4 px-4 text-center text-xs sm:text-base">
+        {productId}
+      </td>
+      <td className="py-4 px-4 text-center text-xs sm:text-base">{qty}</td>
+      <td className="py-4 px-4 text-center text-xs sm:text-base">
+        LKR. {product?.lastPrice?.toFixed(2)}
+      </td>
+      <td className="py-4 px-4 text-center text-xs sm:text-base">
         LKR. {(product?.lastPrice * qty).toFixed(2)}
       </td>
-      <td className="py-4 px-4 text-center">
+      <td className="py-4 px-4 text-center flex justify-center items-center">
         <button
           onClick={onDelete}
-          className="px-4 py-2 bg-red-500 text-white font-medium rounded shadow hover:bg-red-600"
+          className="px-4 py-2 bg-red-500 text-white font-medium rounded shadow hover:bg-red-600 text-xs sm:text-base"
         >
           Delete
         </button>

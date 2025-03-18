@@ -17,7 +17,7 @@ function ShippingPage() {
   const [phone, setPhone] = useState("");
 
   useEffect(() => {
-    if (!cart) {
+    if (!cart.length) {
       toast.error("Your cart is empty. Redirecting to cart...");
       navigate("/cart");
       return;
@@ -31,8 +31,7 @@ function ShippingPage() {
         setLabeledTotalPrice(res.data.labeledTotalPrice);
         setTotalPrice(res.data.totalPrice);
       })
-      .catch((error) => {
-        console.error("Error fetching quote:", error);
+      .catch(() => {
         toast.error("Failed to fetch the quote. Please try again later.");
       });
   }, [cart, navigate]);
@@ -50,46 +49,32 @@ function ShippingPage() {
       return;
     }
 
-    const payload = {
-      orderedItems: cart,
-      name,
-      address,
-      phone,
-      totalPrice,
-    };
-
     axios
-      .post(import.meta.env.VITE_BACKEND_URL + "/api/orders", payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
+      .post(
+        import.meta.env.VITE_BACKEND_URL + "/api/orders",
+        { orderedItems: cart, name, address, phone, totalPrice },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      .then(() => {
         toast.success("Order placed successfully!");
         clearCart();
         navigate("/");
       })
-      .catch((error) => {
-        console.error("Error placing order:", error);
+      .catch(() => {
         toast.error("Failed to place the order. Please try again.");
       });
   };
 
   return (
-    <div className="w-full h-full overflow-y-scroll flex flex-col items-center bg-gradient-to-b from-gray-50 to-gray-100 p-8">
+    <div className="w-full h-full overflow-y-scroll flex flex-col items-center bg-gray-50 p-4 md:p-8">
       <Toaster />
-      <table className="w-full table-auto border-collapse bg-white shadow-xl rounded-lg overflow-hidden">
-        <thead className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white">
-          <tr>
-            <th className="py-3 px-4 text-left uppercase tracking-wide">Image</th>
-            <th className="py-3 px-4 text-center uppercase tracking-wide">Product Name</th>
-            <th className="py-3 px-4 text-center uppercase tracking-wide">Product ID</th>
-            <th className="py-3 px-4 text-center uppercase tracking-wide">Qty</th>
-            <th className="py-3 px-4 text-center uppercase tracking-wide">Price</th>
-            <th className="py-3 px-4 text-center uppercase tracking-wide">Total</th>
-          </tr>
-        </thead>
-        <tbody className="text-gray-800 bg-white divide-y divide-gray-200">
+
+      {/* Cart Items */}
+      <div className="w-full max-w-4xl bg-white shadow-md rounded-lg p-4 md:p-6 mx-auto">
+        <h1 className="text-xl md:text-2xl font-semibold text-gray-700 mb-4 text-center md:text-left">
+          Order Summary
+        </h1>
+        <div className="space-y-6">
           {cart.length > 0 ? (
             cart.map((item) => (
               <ShoppingCartCard
@@ -99,69 +84,71 @@ function ShippingPage() {
               />
             ))
           ) : (
-            <tr>
-              <td colSpan="6" className="text-center py-4 text-gray-500">
-                Your cart is empty.
-              </td>
-            </tr>
+            <p className="text-gray-500 text-center">Your cart is empty.</p>
           )}
-        </tbody>
-      </table>
+        </div>
+      </div>
 
-      <div className="w-full bg-white shadow-md rounded-lg p-6 mt-8">
-        <h1 className="text-2xl font-semibold text-gray-700 mb-4">Order Details</h1>
-        <div className="mb-4">
-          <label className="block text-gray-600 font-medium mb-1">Name:</label>
+      {/* Order Details Form */}
+      <div className="w-full max-w-4xl bg-white shadow-md rounded-lg p-4 md:p-6 mt-6">
+        <h1 className="text-lg md:text-2xl font-semibold text-gray-700 mb-4">
+          Shipping Details
+        </h1>
+        <div className="space-y-4">
           <input
             type="text"
             className="w-full p-2 border rounded-lg"
+            placeholder="Full Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your full name"
           />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-600 font-medium mb-1">Address:</label>
           <input
             type="text"
             className="w-full p-2 border rounded-lg"
+            placeholder="Address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            placeholder="Enter your address"
           />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-600 font-medium mb-1">Phone:</label>
           <input
             type="tel"
             className="w-full p-2 border rounded-lg"
+            placeholder="Phone Number"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            placeholder="Enter your phone number"
           />
         </div>
       </div>
 
-      <div className="w-full bg-white shadow-md rounded-lg p-6 mt-8">
-        <h1 className="text-2xl font-semibold text-gray-700 mb-4">Summary</h1>
-        <div className="flex justify-between items-center text-lg mb-2">
-          <span className="font-medium text-gray-600">Total:</span>
-          <span className="font-bold text-gray-800">LKR {labeledTotalPrice.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between items-center text-lg mb-2">
-          <span className="font-medium text-gray-600">Discount:</span>
-          <span className="font-bold text-green-600">-LKR {(labeledTotalPrice - totalPrice).toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between items-center text-lg mb-4 border-t pt-4">
-          <span className="font-medium text-gray-600">Grand Total:</span>
-          <span className="font-bold text-indigo-600">LKR {totalPrice.toFixed(2)}</span>
+      {/* Price Summary */}
+      <div className="w-full max-w-4xl bg-white shadow-md rounded-lg p-4 md:p-6 mt-6">
+        <h1 className="text-lg md:text-2xl font-semibold text-gray-700 mb-4">
+          Summary
+        </h1>
+        <div className="space-y-2 text-gray-600">
+          <div className="flex justify-between">
+            <span>Total:</span>
+            <span className="font-bold">
+              LKR {labeledTotalPrice.toFixed(2)}
+            </span>
+          </div>
+          <div className="flex justify-between text-green-600">
+            <span>Discount:</span>
+            <span className="font-bold">
+              -LKR {(labeledTotalPrice - totalPrice).toFixed(2)}
+            </span>
+          </div>
+          <div className="flex justify-between font-semibold text-indigo-600 text-lg border-t pt-2">
+            <span>Grand Total:</span>
+            <span>LKR {totalPrice.toFixed(2)}</span>
+          </div>
         </div>
       </div>
 
-      <div className="mt-8 flex justify-end w-full">
+      {/* Checkout Button */}
+      <div className="mt-6 w-full max-w-4xl flex justify-center">
         <button
-          className="px-10 py-4 bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105"
           onClick={handleOrderCreation}
+          className="w-full md:w-auto px-10 py-4 bg-green-500 text-white font-semibold rounded-lg shadow-lg hover:bg-green-600 transition duration-300"
         >
           Checkout
         </button>

@@ -88,7 +88,7 @@ function Products() {
         </div>
 
         {/* Add Product Button */}
-        <Link to="/admin/products/addProducts" className="fixed bottom-8 right-8 bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-all">
+        <Link to="/admin/products/addProducts" className="fixed bottom-8 right-8 bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-transform transform hover:scale-110">
           <FaPlus className="text-2xl" />
         </Link>
       </div>

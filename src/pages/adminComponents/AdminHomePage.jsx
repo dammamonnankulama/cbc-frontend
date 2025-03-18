@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
-import {
-  FaTachometerAlt,
-  FaBox,
-  FaShoppingCart,
-  FaUsers,
-  FaHome,
-} from "react-icons/fa";
+import { FaBars, FaTachometerAlt, FaBox, FaShoppingCart, FaUsers, FaHome } from "react-icons/fa";
+import { motion } from "framer-motion";
 import Dashboard from "./Dashboard";
 import Products from "./Products";
 import Orders from "./Orders";
@@ -20,7 +15,8 @@ import CreateAdmin from "./CreateAdmin";
 
 function AdminHomePage() {
   const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // ✅ Track loading state
+  const [isLoading, setIsLoading] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,7 +34,6 @@ function AdminHomePage() {
         },
       })
       .then((res) => {
-        console.log(res.data);
         if (res.data.type !== "admin") {
           toast.error("You are not authorized to access this page.");
           navigate("/login");
@@ -46,15 +41,13 @@ function AdminHomePage() {
           setUser(res.data);
         }
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
         toast.error("An error occurred. Please try again.");
         navigate("/login");
       })
-      .finally(() => setIsLoading(false)); // ✅ Set loading to false after request
+      .finally(() => setIsLoading(false));
   }, []);
 
-  // ✅ Show a loading spinner until authentication is complete
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -63,73 +56,54 @@ function AdminHomePage() {
     );
   }
 
-  // ✅ Prevent unauthorized users from seeing admin UI
   if (!user) {
-    return null; // Return nothing if no user data
+    return null;
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      {/* 🔹 Sidebar Navigation */}
-      <aside className="w-64 bg-blue-800 text-white flex flex-col fixed h-full lg:w-64 md:w-48 sm:w-32 sm:relative sm:top-0 sm:left-0 sm:h-auto sm:min-h-0 sm:rounded-none sm:bg-transparent sm:shadow-none">
-        <div className="p-4 text-center font-bold text-xl">Admin Panel</div>
-        <nav className="flex flex-col p-4 space-y-2">
-          <Link
-            className="flex items-center bg-blue-700 hover:bg-blue-600 py-2 px-4 rounded"
-            to="/admin/dashboard"
-          >
-            <FaTachometerAlt className="mr-2" /> Dashboard
-          </Link>
-          <Link
-            className="flex items-center bg-blue-700 hover:bg-blue-600 py-2 px-4 rounded"
-            to="/admin/products"
-          >
-            <FaBox className="mr-2" /> Products
-          </Link>
-          <Link
-            className="flex items-center bg-blue-700 hover:bg-blue-600 py-2 px-4 rounded"
-            to="/admin/orders"
-          >
-            <FaShoppingCart className="mr-2" /> Orders
-          </Link>
-          <Link
-            className="flex items-center bg-blue-700 hover:bg-blue-600 py-2 px-4 rounded"
-            to="/admin/customers"
-          >
-            <FaUsers className="mr-2" /> Customers
-          </Link>
-          <Link
-            className="flex items-center bg-blue-700 hover:bg-blue-600 py-2 px-4 rounded"
-            to="/admin/admins"
-          >
-            <FaUsers className="mr-2" /> Website Admins
-          </Link>
+    <div className="min-h-screen bg-purple-500 text-white">
+      <header className=" bg-purple-500 p-4 flex justify-between items-center md:hidden shadow-lg">
+        <span className="text-xl font-bold">Admin Panel</span>
+        <button onClick={() => setMenuOpen(!menuOpen)} className="text-2xl">
+          <FaBars />
+        </button>
+      </header>
 
-          <Link
-            className="flex items-center bg-blue-700 hover:bg-blue-600 py-2 px-4 rounded mt-auto"
-            to="/"
-          >
-            <FaHome className="mr-2" /> Back to HomePage
-          </Link>
-        </nav>
-      </aside>
+      {menuOpen && (
+        <motion.nav initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="absolute top-16 left-0 w-full bg-indigo-800 text-white flex flex-col p-4 space-y-2 md:hidden">
+          <Link className="py-2 px-4 rounded hover:bg-indigo-600 transition" to="/admin/dashboard"> <FaTachometerAlt className="mr-2" /> Dashboard </Link>
+          <Link className="py-2 px-4 rounded hover:bg-indigo-600 transition" to="/admin/products"> <FaBox className="mr-2" /> Products </Link>
+          <Link className="py-2 px-4 rounded hover:bg-indigo-600 transition" to="/admin/orders"> <FaShoppingCart className="mr-2" /> Orders </Link>
+          <Link className="py-2 px-4 rounded hover:bg-indigo-600 transition" to="/admin/customers"> <FaUsers className="mr-2" /> Customers </Link>
+          <Link className="py-2 px-4 rounded hover:bg-indigo-600 transition" to="/admin/admins"> <FaUsers className="mr-2" /> Website Admins </Link>
+          <Link className="py-2 px-4 rounded hover:bg-indigo-600 transition mt-auto" to="/"> <FaHome className="mr-2" /> Back to HomePage </Link>
+        </motion.nav>
+      )}
 
-      {/* 🔹 Main Content Area */}
-      <div className="flex-1 p-8 ml-64 sm:ml-0 sm:mt-16 sm:p-4">
-        <Routes>
-          {/* Specific Routes */}
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="products" element={<Products />} />
-          <Route path="products/addProducts" element={<AddProductForm />} />
-          <Route path="products/editProducts" element={<EditProductForm />} />
-          <Route path="orders" element={<Orders />} />
-          <Route path="customers" element={<Customers />} />
-          <Route path="admins" element={<ManageAdmins />} />
-          <Route path="admins/createAdmin" element={<CreateAdmin />} />
-          
-          {/* Default Route (Redirects to Dashboard) */}
-          <Route path="*" element={<Dashboard />} />
-        </Routes>
+      <div className="flex">
+        <motion.aside initial={{ x: -200 }} animate={{ x: 0 }} className="hidden md:flex md:w-64 bg-indigo-900 text-white flex-col h-screen p-6 space-y-4 shadow-2xl">
+          <h2 className="text-2xl font-semibold text-center mb-4">Admin Panel</h2>
+          <Link className="py-3 px-5 rounded hover:bg-indigo-700 transition flex items-center" to="/admin/dashboard"> <FaTachometerAlt className="mr-2" /> Dashboard </Link>
+          <Link className="py-3 px-5 rounded hover:bg-indigo-700 transition flex items-center" to="/admin/products"> <FaBox className="mr-2" /> Products </Link>
+          <Link className="py-3 px-5 rounded hover:bg-indigo-700 transition flex items-center" to="/admin/orders"> <FaShoppingCart className="mr-2" /> Orders </Link>
+          <Link className="py-3 px-5 rounded hover:bg-indigo-700 transition flex items-center" to="/admin/customers"> <FaUsers className="mr-2" /> Customers </Link>
+          <Link className="py-3 px-5 rounded hover:bg-indigo-700 transition flex items-center" to="/admin/admins"> <FaUsers className="mr-2" /> Website Admins </Link>
+          <Link className="py-3 px-5 rounded hover:bg-indigo-700 transition flex items-center mt-auto" to="/"> <FaHome className="mr-2" /> Back to HomePage </Link>
+        </motion.aside>
+
+        <main className="flex-1 p-10 bg-white text-gray-900 rounded-tl-xl shadow-lg">
+          <Routes>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="products" element={<Products />} />
+            <Route path="products/addProducts" element={<AddProductForm />} />
+            <Route path="products/editProducts" element={<EditProductForm />} />
+            <Route path="orders" element={<Orders />} />
+            <Route path="customers" element={<Customers />} />
+            <Route path="admins" element={<ManageAdmins />} />
+            <Route path="admins/createAdmin" element={<CreateAdmin />} />
+            <Route path="*" element={<Dashboard />} />
+          </Routes>
+        </main>
       </div>
     </div>
   );

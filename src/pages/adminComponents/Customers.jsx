@@ -73,54 +73,48 @@ export default function UsersPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="w-full max-w-4xl bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-bold mb-6 text-center">Customers List</h2>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center py-8">
+      <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6 transform transition-all duration-500 hover:scale-105">
+        <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6 animate__animated animate__fadeIn animate__delay-1s">
+          Customers List
+        </h2>
 
         {errorMessage && (
-          <p className="text-red-500 text-sm text-center mb-4">
-            {errorMessage}
-          </p>
+          <p className="text-red-500 text-sm text-center mb-4">{errorMessage}</p>
         )}
 
-        <table className="w-full border-collapse border border-gray-300">
+        <table className="w-full table-auto border-collapse bg-white shadow-md rounded-md">
           <thead>
-            <tr>
-              <th className="border border-gray-300 p-2">Profile Pic</th>
-              <th className="border border-gray-300 p-2">First Name</th>
-              <th className="border border-gray-300 p-2">Last Name</th>
-              <th className="border border-gray-300 p-2">Email</th>
-              <th className="border border-gray-300 p-2">Action</th>
+            <tr className="bg-blue-500 text-white">
+              <th className="border-b p-3">Profile Pic</th>
+              <th className="border-b p-3">First Name</th>
+              <th className="border-b p-3">Last Name</th>
+              <th className="border-b p-3">Email</th>
+              <th className="border-b p-3">Action</th>
             </tr>
           </thead>
           <tbody>
             {users.length > 0 ? (
               users.map((user) => (
-                <tr key={user._id} className="text-center">
-                  <td className="border border-gray-300 p-2">
+                <tr key={user._id} className="text-center hover:bg-gray-50 transition-colors duration-300">
+                  <td className="border-b p-3">
                     <img
                       src={user.profilePicture || "/default-profile.png"}
                       alt={`${user.firstName}'s profile`}
-                      className="w-10 h-10 rounded-full mx-auto object-cover"
+                      className="w-12 h-12 rounded-full mx-auto object-cover"
                     />
                   </td>
-                  <td className="border border-gray-300 p-2">
-                    {user.firstName}
-                  </td>
-                  <td className="border border-gray-300 p-2">
-                    {user.lastName}
-                  </td>
-                  <td className="border border-gray-300 p-2">{user.email}</td>
-                  <td className="border border-gray-300 p-2">
+                  <td className="border-b p-3">{user.firstName}</td>
+                  <td className="border-b p-3">{user.lastName}</td>
+                  <td className="border-b p-3">{user.email}</td>
+                  <td className="border-b p-3">
                     <button
-                      onClick={() =>
-                        toggleBlockStatus(user._id, user.isBlocked)
-                      }
+                      onClick={() => toggleBlockStatus(user._id, user.isBlocked)}
                       disabled={loadingUserId === user._id}
-                      className={`px-4 py-1 rounded text-white ${
+                      className={`px-6 py-2 rounded-full text-white transition duration-300 transform ${
                         user.isBlocked
-                          ? "bg-red-500 hover:bg-red-600"
-                          : "bg-green-500 hover:bg-green-600"
+                          ? "bg-red-600 hover:bg-red-700"
+                          : "bg-green-600 hover:bg-green-700"
                       } ${
                         loadingUserId === user._id
                           ? "opacity-50 cursor-not-allowed"

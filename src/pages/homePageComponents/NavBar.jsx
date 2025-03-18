@@ -105,12 +105,7 @@ function NavBar() {
           >
             Makeup
           </Link>
-          <Link
-            to="/category/hair-body"
-            className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"
-          >
-            Hair
-          </Link>
+          
           <Link
             to="/category/skin-care"
             className="text-black text-lg font-medium opacity-75 hover:opacity-100 transition hover:underline"

@@ -14,7 +14,9 @@ export default function AddProductForm() {
   const [lastPrice, setLastPrice] = useState("");
   const [stock, setStock] = useState("");
   const [description, setDescription] = useState("");
+  const [discount, setDiscount] = useState("");
   const [lowStockAlert, setLowStockAlert] = useState("");
+  const [category, setCategory] = useState("");
   const navigate = useNavigate();
 
   async function handleSubmit() {
@@ -38,16 +40,22 @@ export default function AddProductForm() {
       lastPrice: lastPrice,
       stock: stock,
       description: description,
+      discount: discount,
       lowStockAlert: lowStockAlert,
+      category: category,
     };
 
     const token = localStorage.getItem("token");
     try {
-      await axios.post(import.meta.env.VITE_BACKEND_URL+"/api/products", product, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
+      await axios.post(
+        import.meta.env.VITE_BACKEND_URL + "/api/products/",
+        product,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
       navigate("/admin/products");
       toast.success("Product added successfully");
     } catch (err) {
@@ -63,7 +71,9 @@ export default function AddProductForm() {
         </h1>
         <div className="space-y-4">
           <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Product ID<span className="text-red-500">*</span></label>
+            <label className="text-gray-700 font-medium">
+              Product ID<span className="text-red-500">*</span>
+            </label>
             <input
               type="text"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
@@ -75,7 +85,9 @@ export default function AddProductForm() {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Product Name<span className="text-red-500">*</span></label>
+            <label className="text-gray-700 font-medium">
+              Product Name<span className="text-red-500">*</span>
+            </label>
             <input
               type="text"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
@@ -112,7 +124,9 @@ export default function AddProductForm() {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Price<span className="text-red-500">*</span></label>
+            <label className="text-gray-700 font-medium">
+              Price<span className="text-red-500">*</span>
+            </label>
             <input
               type="number"
               required
@@ -124,7 +138,9 @@ export default function AddProductForm() {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Last Price<span className="text-red-500">*</span></label>
+            <label className="text-gray-700 font-medium">
+              Last Price<span className="text-red-500">*</span>
+            </label>
             <input
               type="number"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
@@ -133,6 +149,44 @@ export default function AddProductForm() {
               value={lastPrice}
               onChange={(e) => setLastPrice(e.target.value)}
             />
+          </div>
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium">
+              Discount (%)<span className="text-red-500">*</span>
+            </label>
+            <input
+              type="number"
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
+              placeholder="Enter Discount Percentage"
+              value={discount}
+              onChange={(e) => setDiscount(e.target.value)}
+              min="0"
+              max="100"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium">
+              Category<span className="text-red-500">*</span>
+            </label>
+            <select
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
+              required
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="" disabled>
+                Select a category
+              </option>
+              <option value="makeup">Makeup</option>
+              <option value="hair">Hair </option>
+              <option value="skin-care">Skin Care</option>
+              <option value="body">Body </option>
+              <option value="nails">Nails</option>
+              <option value="tools">Tools</option>
+              <option value="perfume">Perfume</option>
+            </select>
           </div>
 
           <div className="flex flex-col">
@@ -156,7 +210,9 @@ export default function AddProductForm() {
             />
           </div>
           <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Low Stock Alert<span className="text-red-500">*</span></label>
+            <label className="text-gray-700 font-medium">
+              Low Stock Alert<span className="text-red-500">*</span>
+            </label>
             <input
               type="number"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"

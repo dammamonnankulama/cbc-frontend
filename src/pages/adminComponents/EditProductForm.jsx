@@ -11,25 +11,26 @@ export default function EditProductForm() {
   // Get the product object from the location state(json)
   const location = useLocation();
   //console.log(location);
-  const product = location.state.product
+  const product = location.state.product;
 
   const altNames = product.altNames.join(",");
 
-  if(product == null){
+  if (product == null) {
     navigate("/admin/products");
   }
 
-
-// change the usestate default values to the product object values
+  // change the usestate default values to the product object values
   const [productId, setProductId] = useState(product.productId);
   const [productName, setProductName] = useState(product.productName);
   const [alternativeNames, setAlternativeNames] = useState(product.altNames);
   const [imageFiles, setImageFiles] = useState([]);
 
   const [price, setPrice] = useState(product.price);
+  const [category, setCategory] = useState(product.category);
   const [lastPrice, setLastPrice] = useState(product.lastPrice);
   const [stock, setStock] = useState(product.stock);
   const [description, setDescription] = useState(product.description);
+  const [discount, setDiscount] = useState(product.discount);
   const [lowStockAlert, setLowStockAlert] = useState(product.lowStockAlert);
 
   async function handleSubmit() {
@@ -39,17 +40,13 @@ export default function EditProductForm() {
     //Use the uploadMediaToSupabase function to upload each image file
     const promisesArray = [];
     let imageUrls = product.productImages;
-    if(imageFiles.length > 0){
-
-
-    
-    for (let i = 0; i < imageFiles.length; i++) {
-      promisesArray[i] = uploadMediaToSupabase(imageFiles[i]);
+    if (imageFiles.length > 0) {
+      for (let i = 0; i < imageFiles.length; i++) {
+        promisesArray[i] = uploadMediaToSupabase(imageFiles[i]);
+      }
+      imageUrls = await Promise.all(promisesArray);
+      console.log(imageUrls);
     }
-    imageUrls = await Promise.all(promisesArray);
-    console.log(imageUrls);
-  }
-
 
     const productData = {
       productId: productId,
@@ -57,16 +54,18 @@ export default function EditProductForm() {
       altNames: altNames,
       productImages: imageUrls,
       price: price,
+      category: category,
       lastPrice: lastPrice,
       stock: stock,
       description: description,
+      discount: discount,
       lowStockAlert: lowStockAlert,
     };
 
     const token = localStorage.getItem("token");
     try {
       await axios.put(
-        import.meta.env.VITE_BACKEND_URL + "/api/products/"+product.productId,
+        import.meta.env.VITE_BACKEND_URL + "/api/products/" + product.productId,
         productData,
         {
           headers: {
@@ -169,6 +168,28 @@ export default function EditProductForm() {
               onChange={(e) => setLastPrice(e.target.value)}
             />
           </div>
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium">
+              Category<span className="text-red-500">*</span>
+            </label>
+            <select
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
+              required
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="" disabled>
+                Select a category
+              </option>
+              <option value="makeup">Makeup</option>
+              <option value="hair">Hair </option>
+              <option value="skin-care">Skin Care</option>
+              <option value="body">Body </option>
+              <option value="nails">Nails</option>
+              <option value="tools">Tools</option>
+              <option value="perfume">Perfume</option>
+            </select>
+          </div>
 
           <div className="flex flex-col">
             <label className="text-gray-700 font-medium">Stock</label>
@@ -190,6 +211,22 @@ export default function EditProductForm() {
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium">
+              Discount (%)<span className="text-red-500">*</span>
+            </label>
+            <input
+              type="number"
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
+              placeholder="Enter Discount Percentage"
+              value={discount}
+              onChange={(e) => setDiscount(e.target.value)}
+              min="0"
+              max="100"
+            />
+          </div>
+
           <div className="flex flex-col">
             <label className="text-gray-700 font-medium">
               Low Stock Alert<span className="text-red-500">*</span>

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import ProductCard from "../../components/productCard";
 
+
 function ProductsPage() {
   // 🔹 State to store fetched products
   const [products, setProducts] = useState([]);

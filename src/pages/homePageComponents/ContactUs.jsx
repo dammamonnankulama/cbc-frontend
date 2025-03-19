@@ -46,7 +46,7 @@ function ContactUs() {
         </p>
 
         <p className="text-lg text-gray-700 mb-6">
-          Drop us a line at <span className="text-blue-600">dammamonnankulama@gmail.com</span>
+          Drop us a line at <span className="text-blue-600">crystalbeautyclear@gmail.com</span>
         </p>
         
         <h2 className="text-3xl font-semibold text-gray-900 mt-12 mb-8">Contact Us</h2>

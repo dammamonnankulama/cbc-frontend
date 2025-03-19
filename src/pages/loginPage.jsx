@@ -60,7 +60,7 @@ const LoginPage = () => {
         if (res.data.user.type === "admin") {
           navigate("/admin");
         } else {
-          navigate("/products");
+          navigate("/");
         }
       })
       .catch((err) => {

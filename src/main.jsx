@@ -8,3 +8,5 @@ createRoot(document.getElementById('root')).render(
     <App />
   </StrictMode>,
 )
+// https://cbc-backend-gzve.onrender.com
+//http://localhost:5000

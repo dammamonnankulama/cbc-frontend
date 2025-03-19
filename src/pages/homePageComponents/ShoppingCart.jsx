@@ -25,7 +25,9 @@ function ShoppingCart() {
     }
 
     axios
-      .post(import.meta.env.VITE_BACKEND_URL + "/api/orders/quote", { orderedItems: updatedCart })
+      .post(import.meta.env.VITE_BACKEND_URL + "/api/orders/quote", {
+        orderedItems: updatedCart,
+      })
       .then((res) => {
         setLabeledTotalPrice(res.data.labeledTotalPrice);
         setTotalPrice(res.data.totalPrice);
@@ -49,7 +51,7 @@ function ShoppingCart() {
     <div className="w-full h-full overflow-y-auto flex flex-col items-center bg-gray-100 p-4 md:p-8">
       {/* Desktop Table */}
       <div className="hidden md:block w-full">
-        <table className="w-full table-auto border-collapse bg-white shadow-xl rounded-lg overflow-hidden">
+        <table className="w-full border-collapse bg-white shadow-lg rounded-lg overflow-hidden">
           <thead className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white">
             <tr>
               <th className="py-3 px-4 text-left">Image</th>
@@ -64,11 +66,18 @@ function ShoppingCart() {
           <tbody className="text-gray-800 bg-white divide-y divide-gray-200">
             {cartItems.length > 0 ? (
               cartItems.map((item) => (
-                <ShoppingCartCard key={item.productId} productId={item.productId} qty={item.qty} deleteItem={handleDeleteItem} />
+                <ShoppingCartCard
+                  key={item.productId}
+                  productId={item.productId}
+                  qty={item.qty}
+                  deleteItem={handleDeleteItem}
+                />
               ))
             ) : (
               <tr>
-                <td colSpan="7" className="text-center py-4 text-gray-500">Your cart is empty.</td>
+                <td colSpan="7" className="text-center py-4 text-gray-500">
+                  Your cart is empty.
+                </td>
               </tr>
             )}
           </tbody>
@@ -79,8 +88,15 @@ function ShoppingCart() {
       <div className="md:hidden w-full space-y-4">
         {cartItems.length > 0 ? (
           cartItems.map((item) => (
-            <div key={item.productId} className="bg-white p-4 rounded-lg shadow-lg">
-              <ShoppingCartCard productId={item.productId} qty={item.qty} deleteItem={handleDeleteItem} />
+            <div
+              key={item.productId}
+              className="bg-white p-4 rounded-lg shadow-lg"
+            >
+              <ShoppingCartCard
+                productId={item.productId}
+                qty={item.qty}
+                deleteItem={handleDeleteItem}
+              />
             </div>
           ))
         ) : (
@@ -92,17 +108,23 @@ function ShoppingCart() {
       {cartItems.length > 0 && (
         <div className="w-full bg-white shadow-md rounded-lg p-6 mt-8">
           <h1 className="text-2xl font-semibold text-gray-700 mb-4">Summary</h1>
-          <div className="flex justify-between items-center text-lg mb-2">
+          <div className="flex justify-between text-lg mb-2">
             <span className="font-medium text-gray-600">Total:</span>
-            <span className="font-bold text-gray-800">LKR {labeledTotalPrice.toFixed(2)}</span>
+            <span className="font-bold text-gray-800">
+              LKR {labeledTotalPrice.toFixed(2)}
+            </span>
           </div>
-          <div className="flex justify-between items-center text-lg mb-2">
+          <div className="flex justify-between text-lg mb-2">
             <span className="font-medium text-gray-600">Discount:</span>
-            <span className="font-bold text-green-600">-LKR {(labeledTotalPrice - totalPrice).toFixed(2)}</span>
+            <span className="font-bold text-green-600">
+              -LKR {(labeledTotalPrice - totalPrice).toFixed(2)}
+            </span>
           </div>
-          <div className="flex justify-between items-center text-lg mb-4 border-t pt-4">
+          <div className="flex justify-between text-lg mb-4 border-t pt-4">
             <span className="font-medium text-gray-600">Grand Total:</span>
-            <span className="font-bold text-indigo-600">LKR {totalPrice.toFixed(2)}</span>
+            <span className="font-bold text-indigo-600">
+              LKR {totalPrice.toFixed(2)}
+            </span>
           </div>
         </div>
       )}
